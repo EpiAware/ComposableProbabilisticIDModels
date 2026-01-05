@@ -603,11 +603,11 @@ A final limitation of our approach is the learning curve required to adopt this 
 
 <!-- Strengths and weaknesses of Turing.jl -->
 
-Key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choices, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages.
+As outlined in @sec-approach, key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choices, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages.
 However, building on an evolving probabilistic programming language involves practical considerations.
-The `Turing.jl` PPL is not fully stable and since developing our DSL, the `@submodel` macro has changed syntax with breaking changes in how it handles prefixes and variables within submodels, meaning our current implementation is not compatible with the latest release.
+`Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
 `Turing.jl` also has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values, which require manual handling.
-Profiling tools can be difficult to use because the probabilistic programming abstractions and macro expansions obscure the relationship between source code and runtime behaviour, making it challenging to identify performance bottlenecks.
+Profiling tools have historically been difficult to use because probabilistic programming abstractions obscure the relationship between source code and runtime behaviour, though recent DynamicPPL refactoring has aimed to improve this.
 That said, recent `Turing.jl` changes may benefit composability: the reduced difference between distributions and submodels could enable more flexible model construction, and new conditioning workflows avoid passing observations through model layers.
 
 <!-- Strengths and weaknesses of Julia -->
@@ -615,7 +615,7 @@ That said, recent `Turing.jl` changes may benefit composability: the reduced dif
 Implementing in Julia [@Julia-2017] provides access to the full features of a programming language rather than a restricted modelling syntax, multiple dispatch for clean component composition, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing.
 A key strength of the Julia ecosystem for compositional work is that domain experts develop specialised tools that interoperate through shared interfaces.
 However, this distributed development also creates challenges as it can be difficult to locate appropriate tools, and when issues emerge users may not know whether problems originate in `Turing.jl`, our DSL layer, or elsewhere in the ecosystem.
-Computational overhead from abstraction layers is also a concern, though new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could reduce costs in future implementations.
+Computational overhead from abstraction layers has been a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce costs.
 Whilst our approach requires implementation in Julia, which is not currently common in epidemiology, the `EpiAwareR` R interface [@EpiAwareR] demonstrates that such frameworks can bridge software ecosystems, and similar interfaces could be built for Python using `PythonCall.jl` [@PythonCall.jl].
 
 <!-- Comparison to literature - Algebraic Julia -->
@@ -631,12 +631,14 @@ More complex compartmental models could be composed from reusable reaction compo
 
 <!-- Comparison to literature - Other approaches -->
 
-In comparison to our proposed compositional DSL approach, domain-specific infectious disease tools currently provide useful features but are generally designed for a limited number of use cases and do not cover the full range of epidemiological modelling approaches needed in practice [@epinow2;@epinowcast;@scott2021_epidemia;@epiline].
+At a conceptual level, our approach is similar in spirit to Bayesian Regression Models using Stan (`brms`) [@brms] for Bayesian regression, which provides a composable and user-friendly interface.
+In comparison, domain-specific infectious disease tools currently provide useful features but are generally designed for a limited number of use cases and do not cover the full range of epidemiological modelling approaches needed in practice [@epinow2;@epinowcast;@scott2021_epidemia;@epiline].
 Of the currently available tools, agent-based modelling approaches show the most promise for compositional modelling [@kerr2024starsim; @gallagher2024epiabm].
 However, ABM calibration remains challenging, though differentiable ABMs may improve this [@chopra2023differentiable], and there are settings where ABM approach may not be appropriate.
 A key aspect of our proposal is being backend agnostic: our DSL could support agent-based backends [@datseris2022agents], and could also support hybrid approaches [@bostanci2025hybrid].
 Generic modelling frameworks can be easier to generalise but difficult to adapt to include domain specific elements [@Overton2023-dk].
-Probabilistic programming languages (PPLs) commonly used in infectious disease modelling also do not meet our proposed composability requirements.
+Importantly, the composable modelling concepts we describe are not limited to `Turing.jl` and could in principle be implemented on other probabilistic programming languages (PPLs).
+However, PPLs commonly used in infectious disease modelling do not currently meet our proposed composability requirements.
 Stan is probably the most commonly used, but is optimised for implementing complete models rather than composing submodels [@Stan].
 Domain-specific PPLs such as `odin`/`monty` and `greta` trade generality for specialisation, none of the available options fully support nesting models within models, and there is limited support for state-of-the-art inference methods [@odin;@fitzjohn25_monty;@greta].
 Alternative PPLs could support compositional approaches.
@@ -672,7 +674,7 @@ Ecosystem developments would also support composable modelling and could reduce 
 Other ecosystem improvements such as better numerical stability handling, debugging tools that preserve probabilistic model semantics, and generalised inference chaining at the PPL level would also benefit composable approaches.
 Improved tooling for the Bayesian workflow [@gelman2020bayesian; @gelman2025_statisticalworkflow] would also strengthen the case for composable modelling in Julia.
 Improving inference method efficiency through GPU support and within-thread parallelisation would enable scaling composable models to larger problems.
-One sensible development path would be to build a `Turing.jl` based composable version of the Bayesian Regression modelling package [@brms], an R package for flexible Bayesian regression modelling, which could provide a non-domain-specific testbed for composable components as well as being directly usable with our domain specific approach.
+One sensible development path would be to build a `Turing.jl` based composable version of `brms` [@brms], which could provide a non-domain-specific testbed for composable components as well as being directly usable with our domain specific approach.
 Finally, ongoing work on compiling Julia applications to standalone executables could enable composable interfaces in other languages with fewer dependencies.
 
 <!-- Conclusions -->
