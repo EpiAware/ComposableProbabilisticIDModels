@@ -29,8 +29,10 @@ format:
     fig-height: 6
     fig-format: pdf
     fig-dpi: 300
+    fig-pos: "H"
     include-in-header:
       text: |
+        \usepackage{float}
         \usepackage{graphicx}
         \usepackage{pdflscape}
         \setkeys{Gin}{width=0.9\textwidth,height=!,keepaspectratio}
