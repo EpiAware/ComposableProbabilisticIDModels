@@ -35,11 +35,19 @@ format:
         \usepackage{float}
         \usepackage{graphicx}
         \usepackage{pdflscape}
+        \usepackage{lineno}
+        \usepackage{etoolbox}
+        \usepackage{setspace}
         \setkeys{Gin}{width=0.9\textwidth,height=!,keepaspectratio}
         \makeatletter
         \let\oldincludegraphics\includegraphics
         \renewcommand{\includegraphics}[2][]{\oldincludegraphics[width=1.0\textwidth,keepaspectratio]{#2}}
         \makeatother
+        % Enable line numbers
+        \linenumbers
+        % Reset line spacing in tables to single
+        \AtBeginEnvironment{tabular}{\setstretch{1}}
+        \AtBeginEnvironment{longtable}{\setstretch{1}}
   ipynb: default
   docx: default
 
