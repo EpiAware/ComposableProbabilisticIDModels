@@ -13,6 +13,10 @@ authors:
     orcid: "0000-0003-0645-5367"
     attributes:
       equal-contributor: true
+  - name: "Sandra Montes-Olivas"
+    affiliations:
+      - ref: lshtm
+    email: "sandra.montes-olivas@lshtm.ac.uk"
   - name: "Hong Ge"
     affiliations:
       - ref: cambridge
