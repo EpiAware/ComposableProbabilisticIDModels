@@ -9,7 +9,7 @@ format:
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '64px', 'fontFamily': 'arial', 'lineColor': '#333'}, 'flowchart': {'htmlLabels': false, 'nodeSpacing': 80, 'rankSpacing': 80, 'padding': 40}}}%%
 flowchart LR
     %% Class definitions
-    classDef infection fill:#9fc5e8,stroke:#333,stroke-width:6px,color:black,padding:20px
+    classDef infection fill:#6fa8dc,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef latentInfection fill:#cfe2f3,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef statistical fill:#ff9900,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef epiLatent fill:#d5a6bd,stroke:#333,stroke-width:6px,color:black,padding:20px
@@ -18,7 +18,7 @@ flowchart LR
     classDef broadcast fill:#ffe6cc,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef transform fill:#ffffff,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef title fill:none,stroke:none,color:black,font-weight:bold
-    classDef sharedModel stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5,fill:#f3e5f5,color:black,padding:20px
+    classDef sharedModel stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5,fill:#f3e5f5,color:black,padding:20px,font-weight:bold
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:6px,color:black,padding:20px
 
     %% ===== ROW 1: EpiNow2 (horizontal) =====
@@ -28,11 +28,11 @@ flowchart LR
         subgraph C[" "]
             C_Title(["EpiNow2"]):::title
             direction LR
-            C_ARIMA(["ARIMA"]):::statistical
+            C_ARIMA(["ARIMA"]):::sharedModel
             C_Broadcast(["Broadcast"]):::broadcast
             C_Weekly(["Weekly"]):::broadcast
             C_Exp(["Exp"]):::transform
-            C_Rt(["Rt"]):::epiLatent
+            C_Rt(["Time-varying Reproduction Number"]):::latentInfection
             C_GT(["Generation Time"]):::epiLatent
             C_Renewal(["Renewal"]):::infection
             C_Infections(["Infections"]):::latentInfection
@@ -68,9 +68,9 @@ flowchart LR
             direction TB
             D_SIR(["SIR ODE"]):::infection
             D_Incidence(["Incidence"]):::latentInfection
-            D_N(["N"]):::epiLatent
+            D_N(["Population"]):::epiLatent
             D_Softplus(["Softplus"]):::transform
-            D_ScaleN(["Scale by N"]):::observationModifier
+            D_ScaleN(["Scale by Population"]):::observationModifier
             D_AR(["AR(1)"]):::statistical
             D_Exp(["Exp"]):::transform
             D_Ascertainment(["Ascertainment"]):::observationModifier
@@ -91,7 +91,7 @@ flowchart LR
             direction TB
             B_AR(["AR(2)"]):::statistical
             B_Exp(["Exp"]):::transform
-            B_Rt(["Rt"]):::epiLatent
+            B_Rt(["Time-varying Reproduction Number"]):::latentInfection
             B_GT(["Generation Time"]):::epiLatent
             B_Renewal(["Renewal"]):::infection
             B_Infections(["Infections"]):::latentInfection
@@ -106,21 +106,27 @@ flowchart LR
         end
 
         subgraph A[" "]
-            A_Title(["ARIMA"]):::title
+            A_Title(["ARIMA with Observation Error"]):::title
             direction TB
-            A_AR(["AR(2)"]):::statistical
-            A_MA(["MA(1)"]):::statistical
-            A_ARMA(["ARMA"]):::statistical
-            A_DIFF(["Differencing"]):::statistical
-            A_ARIMA(["ARIMA"]):::statistical
+
+            subgraph A_ARIMA_Box[" "]
+                direction TB
+                A_ARIMA_Title(["ARIMA"]):::title
+                subgraph A_ARMA_Box[" "]
+                    direction TB
+                    A_ARMA_Title(["ARMA"]):::title
+                    A_MA(["MA(1)"]):::statistical
+                    A_AR(["AR(2)"]):::statistical
+                    A_MA ==> A_AR
+                end
+                A_DIFF(["Differencing"]):::statistical
+                A_ARMA_Box ==> A_DIFF
+            end
+
             A_Exp(["Exp"]):::transform
             A_Obs(["Poisson"]):::observation
 
-            A_AR ==> A_ARMA
-            A_MA ==> A_ARMA
-            A_ARMA ==> A_DIFF
-            A_DIFF ==> A_ARIMA
-            A_ARIMA ==> A_Exp
+            A_ARIMA_Box ==> A_Exp
             A_Exp ==> A_Obs
         end
     end
@@ -138,6 +144,10 @@ flowchart LR
     style B fill:#f9f9f9,stroke:#333,stroke-width:8px
     style C fill:#f9f9f9,stroke:#333,stroke-width:8px
     style D fill:#f9f9f9,stroke:#333,stroke-width:8px
+
+    %% Style ARIMA nested boxes (shared model style - purple dashed)
+    style A_ARIMA_Box fill:#f3e5f5,stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5
+    style A_ARMA_Box fill:#f3e5f5,stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5
 
     %% Make link lines thicker
     linkStyle default stroke-width:12px

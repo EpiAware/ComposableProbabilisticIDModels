@@ -9,15 +9,16 @@ format:
 %%{init: {'theme': 'base', 'themeVariables': {'fontSize': '64px', 'fontFamily': 'arial', 'lineColor': '#333'}, 'flowchart': {'diagramPadding': 60, 'htmlLabels': false, 'nodeSpacing': 40, 'rankSpacing': 40, 'padding': 40}}}%%
 flowchart LR
     %% Class definitions
-    classDef infection fill:#9fc5e8,stroke:#333,stroke-width:6px,color:black,padding:20px
+    classDef infection fill:#6fa8dc,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef latentInfection fill:#cfe2f3,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef observation fill:#b6d7a8,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef statistical fill:#ff9900,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef epiLatent fill:#d5a6bd,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef observationModifier fill:#ff9999,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef observationModel fill:#b6d7a8,stroke:#333,stroke-width:6px,color:black,padding:20px
+    classDef transform fill:#ffffff,stroke:#333,stroke-width:6px,color:black,padding:20px
     classDef title fill:none,stroke:none,color:black,font-weight:bold
-    classDef sharedModel stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5,fill:#f3e5f5,color:black,padding:20px
+    classDef sharedModel stroke:#6600cc,stroke-width:6px,stroke-dasharray:5 5,fill:#f3e5f5,color:black,padding:20px,font-weight:bold
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:6px,color:black,padding:20px
 
     %% ===== ROW 1: Shared Models =====
@@ -28,7 +29,7 @@ flowchart LR
         subgraph SharedCaseObs[" "]
             direction TB
             SCO_Title(["Case observation model"]):::title
-            SCO_Input(["Symptom onsets"])
+            SCO_Input(["Symptom onsets"]):::latentInfection
             SCO_RD(["Reporting Delay"]):::observationModifier
             SCO_Asc(["Ascertainment"]):::observationModifier
             SCO_RT(["Right Truncation"]):::observationModifier
@@ -44,14 +45,16 @@ flowchart LR
         subgraph SharedViralKinetics[" "]
             direction TB
             SVK_Title(["Viral kinetics model"]):::title
-            SVK_Infection(["Infection Time"])
-            SVK_VL(["Viral Load Trajectory"]):::epiLatent
-            SVK_Peak(["Peak Viral Load"]):::epiLatent
-            SVK_Shedding(["Viral Shedding"]):::epiLatent
+            SVK_RE(["Random Effect"]):::statistical
+            SVK_Piecewise(["Piecewise Log-Linear"]):::statistical
+            SVK_Infection(["Infection Time"]):::latentInfection
+            SVK_VK(["Viral Kinetics"]):::infection
+            SVK_VL(["Viral Load"]):::latentInfection
 
-            SVK_Infection ==> SVK_VL
-            SVK_VL ==> SVK_Peak
-            SVK_VL ==> SVK_Shedding
+            SVK_RE ==> SVK_Piecewise
+            SVK_Piecewise ==> SVK_VK
+            SVK_Infection ==> SVK_VK
+            SVK_VK ==> SVK_VL
         end
 
         %% Col 3: Latent Infection + Incubation stacked vertically (both horizontal internally)
@@ -62,10 +65,14 @@ flowchart LR
                 direction LR
                 SLI_Title(["Latent infection model"]):::title
                 SLI_GP(["Gaussian Process"]):::statistical
+                SLI_Rt(["Time-varying Reproduction Number"]):::latentInfection
+                SLI_GT(["Generation Time"]):::epiLatent
                 SLI_Renewal(["Renewal Process"]):::infection
                 SLI_Infections(["Infections"]):::latentInfection
 
-                SLI_GP ==> SLI_Renewal
+                SLI_GP ==> SLI_Rt
+                SLI_Rt ==> SLI_Renewal
+                SLI_GT ==> SLI_Renewal
                 SLI_Renewal ==> SLI_Infections
             end
 
@@ -94,17 +101,22 @@ flowchart LR
             WW_Infections(["Infections"]):::latentInfection
             WW_ViralKineticsRef(["Viral Kinetics Model"]):::sharedModel
             WW_IncubationRef(["Incubation Period Model"]):::sharedModel
-            WW_Shedding(["Viral Shedding"]):::epiLatent
+            WW_SheddingConv(["Shedding Convolution"]):::infection
             WW_EnvDeg(["Environmental Decay"]):::observationModifier
-            WW_OM1(["Wastewater Signal"]):::observationModel
+            WW_CalData(["Calibration Data"]):::epiLatent
+            WW_ConcConv(["Viral Concentration Conversion"]):::transform
+            WW_OM1(["Viral Concentration Data"]):::observationModel
             WW_CaseObsRef(["Case Observation Model"]):::sharedModel
 
             WW_InfectionRef ==> WW_Infections
             WW_Infections ==> WW_ViralKineticsRef
+            WW_Infections ==> WW_SheddingConv
             WW_Infections ==> WW_IncubationRef
-            WW_ViralKineticsRef ==> WW_Shedding
-            WW_Shedding ==> WW_EnvDeg
-            WW_EnvDeg ==> WW_OM1
+            WW_ViralKineticsRef ==> WW_SheddingConv
+            WW_SheddingConv ==> WW_EnvDeg
+            WW_EnvDeg ==> WW_ConcConv
+            WW_CalData ==> WW_ConcConv
+            WW_ConcConv ==> WW_OM1
             WW_IncubationRef ==> WW_CaseObsRef
         end
 
@@ -116,15 +128,17 @@ flowchart LR
             BM_Infections(["Infections"]):::latentInfection
             BM_ViralKineticsRef(["Viral Kinetics Model"]):::sharedModel
             BM_IncubationRef(["Incubation Period Model"]):::sharedModel
-            BM_VL(["Viral Load"]):::epiLatent
-            BM_OM1(["PCR Testing"]):::observationModel
+            BM_CalData(["Calibration Data"]):::epiLatent
+            BM_CtConv(["Cycle Threshold Conversion"]):::transform
+            BM_OM1(["Cycle Threshold Values"]):::observationModel
             BM_OM2(["Symptom Onset Data"]):::observationModel
 
             BM_InfectionRef ==> BM_Infections
             BM_Infections ==> BM_ViralKineticsRef
             BM_Infections ==> BM_IncubationRef
-            BM_ViralKineticsRef ==> BM_VL
-            BM_VL ==> BM_OM1
+            BM_ViralKineticsRef ==> BM_CtConv
+            BM_CalData ==> BM_CtConv
+            BM_CtConv ==> BM_OM1
             BM_IncubationRef ==> BM_OM2
         end
 
