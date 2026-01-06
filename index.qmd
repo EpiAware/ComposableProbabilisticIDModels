@@ -78,7 +78,7 @@ Random.seed!(1234)
 Mathematical models help synthesise data to inform infectious disease policy for both ongoing monitoring and outbreak response.
 For evidence to be useful it must be timely and rigorous, yet current modelling approaches struggle to be both.
 During COVID-19, models integrating multiple data sources informed policy decisions, yet were not adapted for the 2022 mpox outbreak where different expertise was needed.
-Other novel data sources have been shown to provide useful information but have not been integrated into most models used to inform policy.
+Other data sources have been shown to provide useful information but remain difficult to integrate due to the bespoke nature of existing modelling frameworks and the complexity of these data sources.
 Combining results from multiple models can improve reliability, but without shared components it is unclear whether differences reflect scientific choices or technical details.
 
 Composable models, where components can be reused across contexts and combined whilst maintaining reliability, could address these issues.
@@ -92,12 +92,14 @@ Such systems could provide the rigorous evidence needed to inform policy in a ti
 # Introduction {#sec-introduction}
 
 Modelling infectious disease dynamics can be a valuable tool for synthesising information and developing quantitative evidence for understanding and control [@heesterbeek15_modeling].
-The utility of such models lies in their ability to combine expert knowledge about transmission with the often complex ways in which infections are ultimately observed.
-During the COVID-19 pandemic, models integrating case counts, prevalence surveys, severity data, and hospital bed occupancy provided evidence that supported policy decisions [@birrell2024; @ons2020cis; @davies21_transmissibility_b117], yet these models were not used during the 2022 mpox outbreak as contact structure and behaviour needed explicit representation and these models were not adapted to include this [@Endo2022-ij].
-Similarly, cross-sectional viral load measurements have been shown to provide useful information on epidemic dynamics [@hay21_estimating], yet this method has not been incorporated into most models used to inform policy even where such data was routinely available [@anderson20_reproduction; @ons2020cis].
-Multi-model efforts synthesise cross-domain expertise by combining forecasts or scenario projections from multiple teams (e.g., [@brisson20_impacthpv;@cramer22_unitedstatescovid]) and have been shown to improve predictive accuracy [@reich22_collaborativehubs;@howerton23_evaluationuscovid], yet teams rarely collaborate on elements of their models despite shared goals.
-For evidence to inform policy it must be timely, explicit about methods and limitations, and as simple as possible whilst remaining rigorous [@whitty2015what].
-In practice, while rigorous policy-relevant modelling is possible it usually comes at the cost of the flexibility needed for cross-domain collaboration and timely evidence generation.
+For modelling evidence to inform policy it must be timely, explicit about methods and limitations, and as simple as possible whilst remaining rigorous [@whitty2015what].
+It should also be able to incorporate a range of domain expertise.
+During the COVID-19 pandemic, models integrating case counts, prevalence surveys, severity data, and hospital bed occupancy provided evidence that supported policy decisions [@birrell2024; @ons2020cis; @davies21_transmissibility_b117].
+Yet in the 2022 mpox outbreak, where similar data sources were available but contact structure and behaviour needed explicit representation, these models lacked the flexibility to be adapted, with new models developed instead that did not fit to all of the available data due to the need for timely evidence [@Endo2022-ij].
+Cross-sectional viral load measurements have been shown to provide useful information on epidemic dynamics [@hay21_estimating], yet this cross-domain expertise has not been incorporated into most models used to inform policy even where such data was routinely available [@anderson20_reproduction; @ons2020cis].
+Whilst multi-model efforts synthesise cross-domain expertise by combining forecasts or scenario projections from multiple teams (e.g., [@brisson20_impacthpv;@cramer22_unitedstatescovid]) and improve predictive accuracy [@reich22_collaborativehubs;@howerton23_evaluationuscovid], teams rarely collaborate on the components of their models despite shared goals, limiting how quickly evidence can be generated for new contexts.
+These examples illustrate that rigorous, timely, and collaborative modelling is achievable.
+However, they also show that current approaches often struggle to meet all of these criteria, and even when they do, may not be adaptable to new contexts.
 
 Probabilistic programming languages (PPLs) such as Stan or LibBi [@Stan;@murray13_bayesian], and modelling frameworks such as pomp and monty [@king16_statistical;@fitzjohn25_monty], have enabled rigorous joint modelling and inference, reduced development effort, improved model quality, and supported workflow best practices compared with manual specification [@vandemeent2018introduction; @gelman2020bayesian; @gelman2025_statisticalworkflow].
 However, they have not enabled the flexibility and cross-domain collaboration needed to provide evidence in a timely manner.
@@ -119,7 +121,7 @@ This may have impacted the evidence used in policy-relevant decisions about vari
 
 Recent developments in computational statistics and scientific computing demonstrate the potential for composable modelling, in which components can be reused across contexts and combined in different configurations whilst maintaining statistical rigour, to address the tension between flexibility and rigour.
 As an example, advances in `Turing.jl`, a probabilistic programming language built in Julia [@Julia-2017], have introduced submodel interfaces that enable composable probabilistic programming, offering a pathway for epidemiological model composition [@Nicholson2022-ua; @fjelde2025turin].
-In other fields, domain-specific languages (programming languages tailored to specific application domains that use terminology and concepts familiar to domain experts rather than general programming constructs) built in Julia have enabled composable models: `HydroModels.jl` [@jing2025hydromodels] for hydrological modelling and `SpeedyWeather.jl` [@speedyweather2024].
+In other fields, domain-specific languages (programming languages tailored to specific application domains that use terminology and concepts familiar to domain experts rather than general programming constructs) built in Julia have enabled composable models: `HydroModels.jl` [@jing2025hydromodels] for hydrological modelling and `SpeedyWeather.jl` for weather modelling [@speedyweather2024].
 For the CIS example above, if those analysing the primary data used models composed from submodels, they could publish intermediate and fully deidentified results that others could, more easily, integrate into their modelling using Markov melding or related methods [@goudie2019markov].
 This would avoid implicit assumptions by making connections between components explicit and improve uncertainty propagation.
 
@@ -215,8 +217,8 @@ Other similar interfaces could be developed for other programming languages.
 
 ## Case studies {#sec-case-studies}
 
-We demonstrate our prototype compositional modelling DSL by recreating three published epidemiological analyses (@fig-case-studies): "On the derivation of the renewal equation from an age-dependent branching process" [@mishra2020covid], "EpiNow2: Estimate Real-Time Case Counts and Time-Varying Epidemiological Parameters" [@abbott-epinow2-wellcomeopenres], and "Contemporary statistical inference for infectious disease models using Stan" [@chatzilena2019contemporary].
-@fig-case-studies highlights component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the `EpiNow2` replication reuses the full ARIMA structure, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
+We demonstrate our prototype compositional modelling DSL by recreating three published epidemiological analyses (@fig-case-studies): "On the derivation of the renewal equation from an age-dependent branching process" (referred to as Mishra et al.) [@mishra2020covid], "EpiNow2: Estimate Real-Time Case Counts and Time-Varying Epidemiological Parameters" (referred to as `EpiNow2`)[@abbott-epinow2-wellcomeopenres], and "Contemporary statistical inference for infectious disease models using Stan" (referred to as Chatzilena et al.) [@chatzilena2019contemporary].
+@fig-case-studies highlights component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the `EpiNow2` replication reuses the complete ARIMA model, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
 
 We provide an overview of each case study in the following subsections, with full implementation details in the Supplementary Information.
 The first two case studies have also been replicated using the `EpiAwareR` R interface [@EpiAwareR].
@@ -241,14 +243,14 @@ Panels E-F show posterior predictive distributions for daily cases and time-vary
 
 `EpiNow2` [@abbott-epinow2-wellcomeopenres] is a widely used package for real-time situational awareness in infectious disease surveillance, estimating case counts and epidemiological parameters whilst accounting for reporting delays, right-truncation, and day-of-week effects.
 
-Our replication reuses the ARIMA(2,1,1) and negative binomial components from the main text and @sec-example1, extending them with piecewise constant weekly $R_t$ values, incubation period and reporting delay convolutions [@charniga2024best], and day-of-week reporting effects (@fig-case-studies).
+Our replication reuses the ARIMA(2,1,1) and negative binomial components from @sec-example1, extending them with piecewise constant weekly $R_t$ values, incubation period and reporting delay convolutions [@charniga2024best], and day-of-week reporting effects (@fig-case-studies).
 Unlike @sec-example1 which uses the serial interval, this case study uses the generation time distribution; whilst serial intervals are often used as a proxy, this can be problematic [@park2023inferring] and is primarily done when generation time estimates are unavailable [@zhao2020preliminary].
 We use `broadcast_weekly` to convert the ARIMA(2,1,1) process to piecewise constant weekly $R_t$ values, `LatentDelay` to convolve latent infections with incubation period and reporting delay distributions, and `ascertainment_dayofweek` to multiply expected observations by day-of-week effects via a softmax transformation.
 
 @fig-epinow2 shows model components and posterior analysis.
 Panels A-C show prior predictive checks for the piecewise constant weekly ARIMA process, the renewal model, and the composite observation model with delays and day-of-week effects.
 Panel D displays the incubation period and reporting delay distributions.
-Panels E-F show posterior predictive distributions, demonstrating that the model explicitly accounts for reporting delays whilst recovering similar $R_t$ dynamics to @sec-example1.
+Panels E-F show posterior predictive distributions, demonstrating that the model explicitly accounts for reporting delays whilst recovering $R_t$ dynamics.
 
 ![Model components and posterior analysis for Case Study 2. (A) Prior samples from the piecewise constant by week ARIMA(2,1,1) latent process. (B) Prior samples from the renewal model. (C) Prior samples from the composite observation model including delays and day-of-week effects. (D) Incubation period and reporting delay distributions. (E) Posterior predictive distribution for daily cases. (F) Posterior predictive distribution for time-varying $R_t$.](figures/fig-epinow2){#fig-epinow2 width=100%}
 
@@ -291,7 +293,6 @@ However, our proposed approach is a proof of concept and not designed for ongoin
 We only partially implemented support for automated mappings between latent and observed states, partial pooling approaches, and the current component library remains limited to relatively basic epidemiological patterns.
 The DSL layer manipulation tooling also cannot coordinate updates of related parameters such as model order and corresponding priors without manual intervention.
 Whilst our proof of concept has these limitations, the three case studies establish viability for real-world epidemiological problems.
-
 A final limitation of our approach is the learning curve required to adopt this compositional pattern, though this should be mitigated as researchers can embed elements within their existing models and implement their own compositional elements with minimal understanding of the overall architecture.
 
 <!-- Strengths and weaknesses of Turing.jl -->
@@ -343,14 +344,12 @@ However, the smaller JAX-specific ecosystem compared to general Python packages,
 As well as imperative approaches like `Turing.jl`, where models are written as procedural code, declarative graph-based approaches such as `JuliaBUGS.jl` [@sun2024juliabugs] and `RxInfer.jl` [@bagaev2023rxinfer] specify models through explicit conditional dependencies between variables.
 This graph-based representation offers several advantages including more transparent model structure and assumptions, and efficient inference through algorithms that leverage the model's graphical structure.
 However, the declarative approach trades off the flexibility of `Turing.jl`'s imperative style for procedural code, such as loops over recursive updates for dynamical systems, which may limit the range of epidemiological models that can be composed.
-Building a domain-specific backend on `Distributions.jl` rather than `Turing.jl` could enable compatibility with multiple PPLs including `JuliaBUGS.jl` whilst trading off `Turing.jl`'s expressive submodel interface.
-
 <!-- Future work -->
 
 Areas for future work on our approach include gathering community feedback on the proposed requirements, and expanding the component library to address epidemiological applications across multiple scales and data types.
 More work is also needed to allow for modifying deeply nested model specifications without the user needing to be aware of the structure of the nested model.
 Exploring the alternative approaches discussed above also warrants further investigation.
-This includes integrating our approach with AlgebraicJulia tools for composing dynamical systems, extending category theory based software to support probabilistic models, using symbolic-numeric frameworks for automated optimisation, and exploring alternative PPL backends.
+This includes integrating our approach with AlgebraicJulia tools for composing dynamical systems, extending category theory based software to support probabilistic models, using symbolic-numeric frameworks for automated optimisation, and exploring alternative PPL backends or building domain-specific components at a lower level of abstraction to enable compatibility with multiple PPLs.
 Methodological advances are also needed for joint estimation of interdependent epidemiological parameters and integration of individual and population-level observations.
 Further developing and integrating modular Bayesian inference methods, including Markov melding [@goudie2019markov] for combining submodels fitted separately and cut likelihoods [@plummer2015cuts] for controlling feedback between modules, could enable methodological sharing that is currently difficult.
 Better understanding where diversity in modelling assumptions is important in multi-model efforts, and separating such differences from implementation details, also requires further study.
@@ -593,7 +592,7 @@ Then sample from it,
 simulated_params = rand(gen_model)
 ```
 
-Now we have parameters we can simulated some data using the generative model by fixing the random variables using the sampled parameters and the `fix` function. We can then call it, like any normal function, to get simulated observations for `y`.
+Now, using these parameters, we can simulate some data using the generative model by fixing the random variables using the `fix` function. We can then call it, like any normal function, to get simulated observations for `y`.
 
 ```{julia}
 #| output: false
