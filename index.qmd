@@ -198,6 +198,7 @@ This highlights how components developed for one application could be incorporat
 To demonstrate our compositional approach in practice, we start with an autoregressive integrated moving average (ARIMA) process, which generalises the autoregressive and random walk latent models commonly used in infectious disease modelling [@mishra2020covid; @epinow2; @chatzilena2019contemporary].
 Once implemented, we can reuse it, and its component submodels, in epidemiological applications, such as the case studies below.
 An ARIMA process is composed of three components: an autoregressive (AR) process, a moving average (MA) process, and a differencing operation.
+In our DSL, these are implemented as `AR`, `MA`, and `DiffLatentModel` respectively.
 There are multiple ways to implement an ARIMA process, but we choose to compose the AR and MA processes into an ARIMA model by modelling the moving average as the residuals of the AR process (@fig-case-studies, ARIMA panel).
 Taking this approach would allow us to swap out the MA component for a different process, such as a seasonal component, without needing to modify the AR component.
 A full walkthrough using our proposed DSL (@sec-dsl) and `Turing.jl` backend (@sec-backend) is provided in @sec-materials-methods.
