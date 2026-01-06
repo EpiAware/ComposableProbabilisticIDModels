@@ -187,9 +187,6 @@ This structure enables integration of diverse data sources by allowing researche
 It also facilitates staged inference approaches such as Markov melding [@goudie2019markov], meaning that components can be fitted separately and combined with proper uncertainty propagation.
 For further details about the DSL structure and backend implementation, see @sec-materials-methods.
 
-To demonstrate cross-ecosystem accessibility, we also developed `EpiAwareR` [@EpiAwareR], an R interface to the prototype using `JuliaCall` [@JuliaCall].
-This enables R users to access the compositional modelling framework without requiring Julia programming knowledge, specifying models using familiar R syntax while gaining access to the full composable component library.
-
 @fig-composable demonstrates how our proposed approach could enable component reuse across different epidemiological applications.
 Four example applications (wastewater surveillance, biomarker modelling, early outbreak analysis, and incubation period estimation) each compose models from components of different types.
 The schematic also highlights two examples of component reuse.
@@ -207,18 +204,22 @@ A full walkthrough using our proposed DSL (@sec-dsl) and `Turing.jl` backend (@s
 
 ![Model structure for the ARIMA example and three case studies showing component reuse. The ARIMA panel shows how AR(2) and MA(1) components compose into ARIMA(2,1,1) with Exp transformation and Poisson observation. Mishra et al. reuses the AR(2) component for modelling time-varying Rt combined with a Renewal infection process and Negative Binomial observation. EpiNow2 extends this by reusing the full ARIMA structure with weekly broadcasting, adding Latent Delay for reporting delays and day-of-week ascertainment effects. Chatzilena et al. demonstrates an alternative infection process using a SIR ODE with Softplus transformation, scaled by population size N, and AR(1)-based time-varying ascertainment. Colours indicate component types: statistical models (orange), infection processes (light blue), latent infection quantities (pale blue), epidemiological parameters (purple), observation modifiers (red), broadcasting operations (peach), transformations (white), and observation models (green).](figures/fig-case-studies.png){#fig-case-studies width="100%"}
 
+Whilst our approach is implemented in Julia, we have developed `EpiAwareR` [@EpiAwareR], an R interface to the prototype using `JuliaCall` [@JuliaCall] to demonstrate cross-ecosystem accessibility.
+This interface enables R users to access the compositional modelling framework without requiring Julia programming knowledge, specifying models using familiar R syntax whilst gaining access to the full composable component library.
+Other similar interfaces could be developed for other programming languages.
+
 ## Case studies {#sec-case-studies}
 
 We demonstrate our prototype compositional modelling DSL by recreating three published epidemiological analyses (@fig-case-studies): "On the derivation of the renewal equation from an age-dependent branching process" [@mishra2020covid], "EpiNow2: Estimate Real-Time Case Counts and Time-Varying Epidemiological Parameters" [@abbott-epinow2-wellcomeopenres], and "Contemporary statistical inference for infectious disease models using Stan" [@chatzilena2019contemporary].
-@fig-case-studies highlights component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the EpiNow2 replication reuses the full ARIMA structure, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
+@fig-case-studies highlights component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the `EpiNow2` replication reuses the full ARIMA structure, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
 
 We provide an overview of each case study in the following subsections, with full implementation details in the Supplementary Information.
-The first two case studies have also been replicated using the `EpiAwareR` R interface [@EpiAwareR], with R implementations available in the package vignettes, demonstrating cross-ecosystem accessibility.
+The first two case studies have also been replicated using the `EpiAwareR` R interface [@EpiAwareR].
 All code and data for reproducing the analyses are available [@abbott2025composable_code].
 
 ### On the derivation of the renewal equation from an age-dependent branching process: an epidemic modelling perspective {#sec-example1}
 
-*Mishra et al.* [@mishra2020covid] estimate time-varying effective reproduction numbers ($R_t$, the average number of secondary infections caused by an infected individual at time $t$) from case data by combining the renewal equation with a negative binomial observation model.
+Mishra et al. [@mishra2020covid] estimate time-varying effective reproduction numbers ($R_t$, the average number of secondary infections caused by an infected individual at time $t$) from case data by combining the renewal equation with a negative binomial observation model.
 
 Our replication composes an AR(2) latent process for log $R_t$ (@fig-case-studies), a renewal infection process [@cori2013new] using a discretised serial interval distribution [@wallinga2007generation], and a negative binomial observation model for case counts.
 We use `AR` to generate the latent log $R_t$ trajectory, `Renewal` to compute expected infections via the renewal equation $I_t = R_t \sum_{s} g_s I_{t-s}$, and `NegativeBinomialError` to link expected infections to observed cases with overdispersion.
@@ -248,7 +249,7 @@ Panels E-F show posterior predictive distributions, demonstrating that the model
 
 ### Contemporary statistical inference for infectious disease models using Stan {#sec-example3}
 
-*Chatzilena et al.* [@chatzilena2019contemporary] demonstrate Bayesian inference for compartmental disease models using Stan, fitting an SIR model to single strain influenza outbreak data with both a simple Poisson observation model and a stochastic model with time-varying ascertainment to account for model misspecification and observation error.
+Chatzilena et al. [@chatzilena2019contemporary] demonstrate Bayesian inference for compartmental disease models using Stan, fitting an SIR model to single strain influenza outbreak data with both a simple Poisson observation model and a stochastic model with time-varying ascertainment to account for model misspecification and observation error.
 
 Our replication introduces the SIR model as an alternative infection generating process to the renewal model used in the previous case studies (@fig-case-studies).
 We compose an SIR compartmental model using `ODEProcess` from the SciML ecosystem [@rackauckas2017differentialequations], a Poisson observation model, and a stochastic observation model using `Ascertainment` for time-varying effects parameterised as an AR(1) process.
