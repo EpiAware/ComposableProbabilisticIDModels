@@ -402,10 +402,10 @@ This cross-hierarchy composition extends the building block analogy to include m
 For instance, we can construct a delay convolution observation model, `LatentDelay`, using an underlying observation model and a delay distribution model.
 
 The `EpiProblem` structure is a top-level container assembling these components into a complete epidemiological model.
-It holds an infection process (`epi_model`), a latent process (`latent_model`), an observation process (`observation_model`), and a time span for inference or simulation.
-The latent model generates time-varying epidemiological parameters, the infection model uses these parameters to simulate disease transmission and generate infections, and the observation model links these latent infections to observed data through measurement processes.
-However, this is just the top-level structure: each submodel can itself contain any of these abstract types, enabling flexible composition such as observation models that include latent processes for time-varying ascertainment.
-Structures can be modified in place using tools like `Accessors.jl` [@Accessors.jl], enabling both model iteration and patterns such as partially pooled models that update low-level priors based on grouping structures.
+Each submodel can itself contain any of these abstract types, enabling flexible composition such as observation models that include latent processes for time-varying ascertainment.
+
+The DSL also supports utilities for model manipulation, inspection, and linking.
+Models can be modified in place using tools like `Accessors.jl` [@Accessors.jl], enabling both model iteration and patterns such as partially pooled models that update low-level priors based on grouping structures.
 The abstract type system enables shared methods across all model components, such as print methods (shown below) for displaying model specifications or functions for visualising model directed acyclic graphs.
 This approach also allows for the creation of mappings between submodels such as one to one, one to many, and many to many mappings so that, for example, a single infection process can be linked to multiple observations models by specifying a mapping model.
 
