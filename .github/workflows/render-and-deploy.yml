@@ -79,6 +79,7 @@ jobs:
         run: |
           Rscript -e '
             renv::install("pkgdown")
+            renv::install("remotes")
             remotes::install_local("EpiAwareR", dependencies = FALSE, upgrade = "never")
           '
 
