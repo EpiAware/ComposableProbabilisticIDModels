@@ -4,7 +4,7 @@ Dear Editor,
 
 Mathematical models form an important part of epidemiological research.
 They help synthesise data to inform infectious disease policy for both routine surveillance and outbreak response.
-For evidence to inform policy it must be timely and rigorous, yet most modelling approaches struggle to achieve both.
+For evidence to inform policy it must be timely, rigorous, and collaborative, yet most modelling approaches struggle to achieve all three.
 During COVID-19, models integrating multiple data sources informed policy decisions, yet these were not adapted for the 2022 mpox outbreak where different expertise was needed.
 Instead, new models were designed from scratch.
 Similarly, multi-team forecasting collaborations combine outputs to improve forecasts, but teams rarely share model components despite shared goals.
