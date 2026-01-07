@@ -11,7 +11,7 @@ Similarly, multi-team forecasting collaborations combine outputs to improve fore
 
 This lack of transferability of model components between scenarios or teams represents a broader issue, in that the practical unit of reuse remains the whole model or its code base, not the underlying epidemiological concepts.
 This does not just limit collaboration and dissemination of learning, but can have implications for statistical rigour.
-As demonstrated by Lison et al. (PLOS Computational Biology, 2024), chaining the results of multiple models can lead to substantial bias compared to joint modelling which, however, usually requires bespoke and monolithic models and associated code.
+As demonstrated by Lison et al. (PLOS Computational Biology, 2024), chaining the results of multiple models can lead to substantial bias compared to joint modelling which, however, usually requires bespoke models and associated code that cannot be separated into reusable parts.
 
 We submit for consideration "Composable probabilistic models can lower barriers to rigorous infectious disease modelling" as an article that proposes a solution.
 We present requirements for a framework that would allow sharing, combining and isolation of components of a model, and demonstrate feasibility through a proof of concept.
