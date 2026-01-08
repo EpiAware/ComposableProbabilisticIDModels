@@ -292,12 +292,11 @@ A final limitation is the learning curve required to adopt this compositional pa
 
 <!-- Strengths and weaknesses of Turing.jl -->
 
-As outlined in @sec-approach, key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choices, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages.
-However, building on an evolving probabilistic programming language involves practical considerations.
+As outlined in @sec-approach, key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages.
+However, building on an evolving probabilistic programming language involves trade-offs.
 `Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
-`Turing.jl` also has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values, which require manual handling.
-Profiling tools have historically been difficult to use because probabilistic programming abstractions obscure the relationship between source code and runtime behaviour, though recent DynamicPPL refactoring has aimed to improve this.
-That said, recent `Turing.jl` changes may benefit composability: the reduced difference between distributions and submodels could enable more flexible model construction, and new conditioning workflows avoid passing observations through model layers.
+`Turing.jl` also currently has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values require manual handling.
+Profiling tools, which are useful for optimising complex models, have historically been difficult to use because probabilistic programming abstractions obscure the relationship between source code and runtime behaviour, though recent `DynamicPPL` refactoring has aimed to improve this.
 
 <!-- Strengths and weaknesses of Julia -->
 
