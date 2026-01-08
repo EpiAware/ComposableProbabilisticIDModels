@@ -300,11 +300,11 @@ Profiling tools, which are useful for optimising complex models, have historical
 
 <!-- Strengths and weaknesses of Julia -->
 
-Implementing in Julia [@Julia-2017] provides access to the full features of a programming language rather than a restricted modelling syntax, multiple dispatch for clean component composition, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing.
+Key strengths of our approach being implemented using Julia [@Julia-2017] include access to full programming language features rather than a restricted modelling syntax, multiple dispatch for clean component composition, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing.
 A key strength of the Julia ecosystem for compositional work is that domain experts develop specialised tools that interoperate through shared interfaces.
 However, this distributed development also creates challenges as it can be difficult to locate appropriate tools, and when issues emerge users may not know whether problems originate in `Turing.jl`, our DSL layer, or elsewhere in the ecosystem.
-Computational overhead from abstraction layers has been a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce costs.
-Whilst our approach requires implementation in Julia, which is not currently common in epidemiology, the `EpiAwareR` R interface [@EpiAwareR] demonstrates that such frameworks can bridge software ecosystems, and similar interfaces could be built for Python using `PythonCall.jl` [@PythonCall.jl].
+Computational overhead from abstraction layers in our DSL is a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce the computational cost.
+Whilst our approach is implemented in Julia, which is not currently common in epidemiology, the R interface [@EpiAwareR] we developed demonstrates that such frameworks can bridge software ecosystems.
 
 <!-- Comparison to literature - Algebraic Julia -->
 
@@ -338,6 +338,7 @@ However, the smaller JAX-specific ecosystem compared to general Python packages,
 As well as imperative approaches like `Turing.jl`, where models are written as procedural code, declarative graph-based approaches such as `JuliaBUGS.jl` [@sun2024juliabugs] and `RxInfer.jl` [@bagaev2023rxinfer] specify models through explicit conditional dependencies between variables.
 This graph-based representation offers several advantages including more transparent model structure and assumptions, and efficient inference through algorithms that leverage the model's graphical structure.
 However, the declarative approach trades off the flexibility of `Turing.jl`'s imperative style for procedural code, such as loops over recursive updates for dynamical systems, which may limit the range of epidemiological models that can be composed.
+
 <!-- Future work -->
 
 Areas for future work on our approach include gathering community feedback on the proposed requirements, and expanding the component library to address epidemiological applications across multiple scales and data types.
