@@ -292,7 +292,7 @@ A final limitation is the learning curve required to adopt this compositional pa
 
 <!-- Strengths and weaknesses of Turing.jl -->
 
-Key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages (see @sec-approach for additional detail).
+Key strengths of building on the `Turing.jl` probabilistic programming language (PPL) [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages (see @sec-approach for additional detail).
 However, building on an evolving probabilistic programming language involves trade-offs.
 `Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
 `Turing.jl` also currently has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values require manual handling.
@@ -305,38 +305,41 @@ However, this distributed development also creates challenges as it can be diffi
 Computational overhead from abstraction layers in our DSL is a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce the computational cost.
 Whilst our approach is implemented in Julia, which is not currently common in epidemiology, the R interface [@EpiAwareR] we developed demonstrates that such frameworks can bridge software ecosystems.
 
+<!-- Comparison to literature - Other PPLs -->
+
+The composable modelling concepts we describe are not limited to `Turing.jl` and could in principle be implemented in PPLs both in Julia and other programming languages.
+However, PPLs commonly used in infectious disease modelling do not currently meet our proposed composability requirements (see @sec-requirements).
+Stan is probably the most commonly used, but is optimised for implementing complete models rather than composing submodels [@Stan].
+Domain-specific PPLs such as `odin`/`monty` and `greta` trade generality for infectious disease modelling specific features, but none of the available options fully support nesting models within models, and there is limited support for state-of-the-art inference methods [@odin;@fitzjohn25_monty;@greta].
+Several other PPLs have some of the features needed to meet our composability requirements.
+`Gen.jl` [@cusumanotowner2019gen] supports composition through nested generative function calls and combinators of generative functions, and Gen-based tools have demonstrated useful functionality for epidemiological modelling such as `AutoGP.jl` [@saad2023sequential] for automated Gaussian process kernel composition.
+However, Gen focuses on lower-level implementation compared to `Turing.jl`, requiring users to handle more implementation details.
+Genify [@tan2021genify] allows for the translation of Julia code into Gen models, potentially easing adoption.
+Python-based probabilistic programming languages such as NumPyro [@phan2019composable] and Oryx [@oryx2020] built on JAX [@jax2018github] are also potential options [@pyrenew2024, @coix2024], with potential advantages due to JAX's focus on efficiency and scaling with GPUs.
+However, the smaller JAX-specific ecosystem compared to the general Python ecosystem, JAX's optimisation for neural network tasks, and Python PPLs' more programmer-oriented syntax that diverges from mathematical notation may create barriers for epidemiological modellers.
+As well as imperative approaches like `Turing.jl`, where models are written as procedural code, declarative graph-based approaches such as `JuliaBUGS.jl` [@sun2024juliabugs] and `RxInfer.jl` [@bagaev2023rxinfer]  that specify models through explicit conditional dependencies between variables are potential alternatives.
+This graph-based representation offers several advantages including more transparent model structure and assumptions, and efficient inference through algorithms that leverage the model's graphical structure.
+However, the declarative approach trades off the flexibility of `Turing.jl`'s imperative style for procedural code, such as loops over recursive updates for dynamical systems, which may limit the range of epidemiological models that can be composed.
+
 <!-- Comparison to literature - Algebraic Julia -->
 
 Alternative approaches to compositional modelling exist in the literature.
 Category theory [@fong2018seven] provides formal mathematical foundations for composability, enabling complex models to be built from smaller building blocks, with the composed model being correct by construction.
 The AlgebraicJulia ecosystem demonstrates how category theory can be operationalised in software, with `AlgebraicPetri.jl` [@libkind2022algebraic] and `AlgebraicDynamics.jl` [@libkind2021operadic] implementing operadic composition for hierarchical model construction.
 Symbolic-numeric frameworks such as `ModelingToolkit.jl` [@modelingtoolkit2021] and `Catalyst.jl` [@loman2023catalyst] from the SciML ecosystem [@SciML] offer acausal component-based models with performance improvements through automated parallelisation and equation simplification, and link to AlgebraicJulia through shared reaction network representations [@baez2017compositional].
-In comparison, our approach currently lacks the formal compositional guarantees of category theory and automated optimisations of symbolic-numeric frameworks.
-However, current AlgebraicJulia tools focus on composing dynamical systems and provide limited direct support for probabilistic modelling; in contrast, our approach targets the full range of probabilistic models used in infectious disease inference.
+Our approach currently lacks the formal compositional guarantees of category theory and automated optimisations of symbolic-numeric frameworks.
+However, existing AlgebraicJulia tools focus on composing dynamical systems and provide limited support for probabilistic modelling; in contrast, our approach supports the full range of infectious disease modelling approaches.
 Although category theory could in principle provide guardrails for composing probabilistic models, the software does not yet support this.
-More complex compartmental models could be composed from reusable reaction components using `AlgebraicPetri.jl` or `Catalyst.jl`, with our approach managing the probabilistic aspects such as priors and observation models.
 
 <!-- Comparison to literature - Other approaches -->
 
-At a conceptual level, our approach is similar in spirit to Bayesian Regression Models using Stan (`brms`) [@brms] for Bayesian regression, which provides a composable and user-friendly interface.
-In comparison, domain-specific infectious disease tools currently provide useful features but are generally designed for a limited number of use cases and do not cover the full range of epidemiological modelling approaches needed in practice [@epinow2;@epinowcast;@scott2021_epidemia;@epiline].
+Other options for flexible and rigorous infectious disease modelling exist across general statistical tools and domain-specific packages.
+At a conceptual level, our approach is similar in spirit to Bayesian Regression Models using Stan (`brms`) [@brms] for Bayesian regression, which provides a composable and user-friendly interface for regression modelling.
+Regression frameworks are widely used for applied infectious disease modelling due to their flexibility but can be difficult to adapt to include domain specific elements [@Overton2023-dk].
+In comparison, specialised infectious disease tools provide useful, domain-specific, features but are generally designed for a limited number of use cases [@epinow2;@epinowcast;@scott2021_epidemia;@epiline].
 Of the currently available tools, agent-based modelling approaches show the most promise for compositional modelling [@kerr2024starsim; @gallagher2024epiabm].
-However, ABM calibration remains challenging, though differentiable ABMs may improve this [@chopra2023differentiable], and there are settings where ABM approach may not be appropriate.
-A key aspect of our proposal is being backend agnostic: our DSL could support agent-based backends [@datseris2022agents], and could also support hybrid approaches [@bostanci2025hybrid].
-Generic modelling frameworks can be easier to generalise but difficult to adapt to include domain specific elements [@Overton2023-dk].
-Importantly, the composable modelling concepts we describe are not limited to `Turing.jl` and could in principle be implemented on other probabilistic programming languages (PPLs).
-However, PPLs commonly used in infectious disease modelling do not currently meet our proposed composability requirements.
-Stan is probably the most commonly used, but is optimised for implementing complete models rather than composing submodels [@Stan].
-Domain-specific PPLs such as `odin`/`monty` and `greta` trade generality for specialisation, none of the available options fully support nesting models within models, and there is limited support for state-of-the-art inference methods [@odin;@fitzjohn25_monty;@greta].
-Alternative PPLs could support compositional approaches.
-`Gen.jl` [@cusumanotowner2019gen] focuses on lower-level implementation of probabilistic programs compared to `Turing.jl`, with composition support through nested generative function calls and combinators of generative functions.
-Despite this, Gen-based tools demonstrate useful functionality for epidemiological modelling, such as `AutoGP.jl` [@saad2023sequential], which implements real-time inference and automated composition of Gaussian process kernels.
-Genify [@tan2021genify] provides an approach that translates Julia code into Gen models, potentially easing adoption.
-Python-based probabilistic programming languages such as NumPyro [@phan2019composable] and Oryx [@oryx2020] built on JAX [@jax2018github] could enable similar composability [@pyrenew2024, @coix2024], with potential advantages from JAX's focus on efficiency and GPU scaling.
-However, the smaller JAX-specific ecosystem compared to general Python packages, JAX's optimisation for neural network tasks, and Python PPLs' more programmer-oriented syntax that diverges from mathematical notation may create barriers for epidemiological modellers.
-As well as imperative approaches like `Turing.jl`, where models are written as procedural code, declarative graph-based approaches such as `JuliaBUGS.jl` [@sun2024juliabugs] and `RxInfer.jl` [@bagaev2023rxinfer] specify models through explicit conditional dependencies between variables.
-This graph-based representation offers several advantages including more transparent model structure and assumptions, and efficient inference through algorithms that leverage the model's graphical structure.
-However, the declarative approach trades off the flexibility of `Turing.jl`'s imperative style for procedural code, such as loops over recursive updates for dynamical systems, which may limit the range of epidemiological models that can be composed.
+However, ABM calibration remains challenging, though differentiable ABMs may improve this [@chopra2023differentiable], and there are settings where an ABM approach may not be appropriate.
+Our proposed approach could support agent-based backends [@datseris2022agents], and could also support hybrid approaches [@bostanci2025hybrid].
 
 <!-- Future work -->
 
