@@ -285,6 +285,7 @@ For instance, adding a new data source such as wastewater surveillance to an exi
 This modularity enables interdisciplinary collaboration, as domain experts can contribute specialised components encoding their knowledge without needing to understand other components.
 Such a design would also support both routine forecasting through seasonal refinement of components [@Reich2019-flusight; @Cramer2021-hub-dataset; @cdcrtestimates] and outbreak response through adaptation of models to novel pathogens using the same framework.
 For multi-model efforts, common components would enable attribution of different results to modelling assumptions rather than implementation details [@Brockhaus2023-bt].
+The explicit component structure and validation tools also make our approach well-suited for large language model assisted model construction [@aygun2025ai].
 A weakness of our proposed requirements is that they were developed without broader community input, drawing instead on our experience building infectious disease modelling frameworks and applying modelling.
 An additional limitation is that our proof of concept does not fully implement all features we think are required, including automated mappings between latent and observed states, partial pooling approaches, and a component library that extends beyond basic epidemiological patterns.
 The DSL layer manipulation tooling also cannot coordinate updates of related parameters such as model order and corresponding priors without manual intervention which is key for streamlining model specification.
@@ -351,9 +352,7 @@ Methodological advances are also needed for joint estimation of interdependent e
 Further developing and integrating modular Bayesian inference methods, including Markov melding [@goudie2019markov] for combining submodels fitted separately and cut likelihoods [@plummer2015cuts] for controlling feedback between modules, could enable methodological sharing that is currently difficult.
 Better understanding where diversity in modelling assumptions is important in multi-model efforts, and separating such differences from implementation details, also requires further study.
 Future surveillance programmes could also be designed with composable modelling frameworks in mind, enabling estimates and model components to be shared and reused from initial data collection through to policy-relevant analyses.
-Compositional frameworks also create opportunities for large language model integration.
-Language models could serve as model construction agents, using a composable framework to construct epidemiological models from component libraries [@aygun2025ai].
-The explicit structure and validation tools of a composable framework should enable language models to reason about model design and propose structural adaptations more easily and with less room for error.
+The explicit structure and validation tools of our DSL should enable large language models to reason about model design and propose structural adaptations more easily and with less room for error.
 Further work is needed to assess this.
 
 <!-- Future ecosystem work -->
