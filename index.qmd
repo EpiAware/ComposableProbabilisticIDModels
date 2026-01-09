@@ -292,7 +292,7 @@ A final limitation is the learning curve required to adopt this compositional pa
 
 <!-- Strengths and weaknesses of Turing.jl -->
 
-As outlined in @sec-approach, key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages.
+Key strengths of building on `Turing.jl` [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages (see @sec-approach for additional detail).
 However, building on an evolving probabilistic programming language involves trade-offs.
 `Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
 `Turing.jl` also currently has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values require manual handling.
@@ -300,8 +300,7 @@ Profiling tools, which are useful for optimising complex models, have historical
 
 <!-- Strengths and weaknesses of Julia -->
 
-Key strengths of our approach being implemented using Julia [@Julia-2017] include access to full programming language features rather than a restricted modelling syntax, multiple dispatch for clean component composition, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing.
-A key strength of the Julia ecosystem for compositional work is that domain experts develop specialised tools that interoperate through shared interfaces.
+Key strengths of our approach being implemented using Julia [@Julia-2017] include its ecosystem where domain experts develop specialised tools that interoperate through shared interfaces, access to full programming language features rather than a restricted modelling syntax, multiple dispatch for composition of tools, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing (see @sec-approach for additional detail).
 However, this distributed development also creates challenges as it can be difficult to locate appropriate tools, and when issues emerge users may not know whether problems originate in `Turing.jl`, our DSL layer, or elsewhere in the ecosystem.
 Computational overhead from abstraction layers in our DSL is a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce the computational cost.
 Whilst our approach is implemented in Julia, which is not currently common in epidemiology, the R interface [@EpiAwareR] we developed demonstrates that such frameworks can bridge software ecosystems.
