@@ -272,11 +272,11 @@ This indicates that the flexible observation model compensates for potential mis
 
 # Discussion {#sec-discussion}
 
-In this paper we have identified barriers in epidemiological modelling arising from the tension between statistical rigour and the flexibility needed for cross-domain collaboration and timely policy-relevant evidence, proposed compositional infectious disease models as a solution, laid out a set of requirements for such frameworks, and demonstrated through a proof of concept that this approach can address these requirements.
-Our proof of concept consists of a domain specific language (DSL) built on top of the `Turing.jl` probabilistic programming framework, enabling compositional model construction through reusable components.
-This approach enables building block style model construction, maintaining the statistical rigour of joint models whilst providing the flexibility of chaining together simpler models.
-The autoregressive model example illustrated how more complex models emerge from simple component combinations using our proposed struct-in-struct pattern (where structures, data containers that group related variables and their types together, contain other structures as fields).
-Our three case studies (@fig-case-studies), which were based on previous studies [@mishra2020covid; @epinow2; @chatzilena2019contemporary], demonstrate how these latent process components composed with infection and observation models can address real-world epidemiological problems across a range of modelling approaches.
+In this paper we identified barriers in epidemiological modelling arising from the tension between statistical rigour and the flexibility needed for collaborative and timely policy-relevant evidence, proposed compositional infectious disease models as a solution, laid out a set of requirements for such frameworks, and demonstrated through a proof of concept that this approach can address these requirements.
+Our proof of concept consists of a domain specific language (DSL) built on top of the `Turing.jl` probabilistic programming language (PPL).
+This approach enables building block style model construction, analysing all data sources and processes together whilst retaining the modularity of separate model components.
+We demonstrated our approach conceptually using models from published epidemiological analyses, and in practice through example implementation of a  autoregressive process.
+We then replicated three published analyses [@mishra2020covid; @epinow2; @chatzilena2019contemporary], composing elements of our autoregressive process example along with both shared and novel components for each analysis.
 
 <!-- Strengths and weaknesses of our DSL -->
 
@@ -292,7 +292,7 @@ A final limitation is the learning curve required to adopt this compositional pa
 
 <!-- Strengths and weaknesses of Turing.jl -->
 
-Key strengths of building on the `Turing.jl` probabilistic programming language (PPL) [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages (see @sec-approach for additional detail).
+Key strengths of building on the `Turing.jl` PPL [@fjelde2025turin] include mature submodel support for nesting models within models, extensive inference algorithm choice, and integration with the wider Julia ecosystem through `Distributions.jl` [@JSSv098i16] and other packages (see @sec-approach for additional detail).
 However, building on an evolving probabilistic programming language involves trade-offs.
 `Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
 `Turing.jl` also currently has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values require manual handling.
