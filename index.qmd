@@ -76,7 +76,7 @@ Random.seed!(1234)
 ## Author Summary {.unnumbered}
 
 Mathematical models help synthesise data to inform infectious disease policy for both ongoing monitoring and outbreak response.
-For evidence to be useful it must be timely and rigorous, yet current modelling approaches struggle to be both.
+For evidence to be useful it must be timely, rigorous, and collaborative, yet current modelling approaches struggle to be all three.
 During COVID-19, models integrating multiple data sources informed policy decisions, yet were not adapted for the 2022 mpox outbreak where different expertise was needed.
 Other data sources have been shown to provide useful information but remain difficult to integrate due to the bespoke nature of existing modelling frameworks and the complexity of these data sources.
 Combining results from multiple models can improve reliability, but without shared components it is unclear whether differences reflect scientific choices or technical details.
@@ -87,7 +87,7 @@ This allows different data sources to be analysed together reliably, and for spe
 
 We propose requirements for composable infectious disease modelling based on these challenges.
 We demonstrate feasibility through a working example, recreating three published analyses using shared components.
-Such systems could provide the rigorous evidence needed to inform policy in a timely manner during both ongoing monitoring and outbreak response.
+Such systems could provide the timely, rigorous, and collaborative evidence needed to inform policy during both ongoing monitoring and outbreak response.
 
 # Introduction {#sec-introduction}
 
