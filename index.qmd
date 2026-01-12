@@ -101,7 +101,7 @@ Whilst multi-model efforts synthesise expertise by combining forecasts or scenar
 These examples illustrate that rigorous, timely, and collaborative modelling is achievable.
 However, they also show that current approaches often struggle to meet all of these criteria, and even when they do, may not be adaptable to new contexts.
 
-One approach to achieving flexibility is to chain multiple models together, fitting separate models sequentially and passing outputs to subsequent stages [@huisman2022;@liu2021npi;@gunther2021nowcasting].
+One approach to achieving the flexibility needed for timely and collaborative modelling is to chain multiple models together, fitting separate models sequentially and passing outputs to subsequent stages [@huisman2022;@liu2021npi;@gunther2021nowcasting].
 This provides flexibility at the cost of rigour as it prevents full propagation of uncertainty and can introduce biased estimates [@lison2024].
 Modelling using data from the UK Office for National Statistics Community Infection Survey (CIS) demonstrates this approach and resulting challenges [@ons2020cis].
 From April 2020 to March 2023, the CIS tested over four million swabs from more than 150,000 households at a cost exceeding £500 million.
