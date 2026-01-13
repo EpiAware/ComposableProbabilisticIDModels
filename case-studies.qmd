@@ -23,7 +23,7 @@ using Random
 Random.seed!(1234)
 ```
 
-# Setup
+# Setup {#sec-setup}
 
 This supplementary document contains the full implementation details for the case studies presented in the main text.
 The code here demonstrates how our proof of concept compositional modelling DSL recreates and extends existing epidemiological models.
@@ -141,7 +141,7 @@ This means that we determine the initial condition of the latent infecteds befor
 
 #### Latent model
 
-We reuse the AR(2) model `ar2` defined in the Setup section, but update the first damping coefficient prior ρ₁ to match _Mishra et al_.
+We reuse the AR(2) model `ar2` defined in @sec-setup, but update the first damping coefficient prior ρ₁ to match _Mishra et al_.
 They specify ρ₁ ~ N(0.8, 0.05) constrained to [0,1], reflecting strong autocorrelation in the log reproduction number process.
 
 ```{julia}
@@ -188,7 +188,7 @@ model_data = EpiData(gen_distribution=truth_SI)
 ```
 
 @fig-mishra D compares the discretized generation interval with the underlying continuous distribution.
-As expected the observed discrete generation interval differs from the underlying continuous distrbution due to the double censoring process.
+As expected the observed discrete generation interval differs from the underlying continuous distribution due to the double interval censoring process [@charniga2024best].
 
 ```{julia}
 #| echo: false
@@ -453,7 +453,7 @@ end
 #| output: true
 #| echo: false
 #| label: fig-mishra
-#| fig-cap: "Model components and posterior analysis for @sec-example1. (A) Prior samples from the AR(2) latent process for log $R_t$ over 50 days, showing potential reproductive number trajectories. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory, demonstrating infection dynamics. (C) Prior samples from the negative binomial observation model around a latent infection curve, illustrating observation noise. (D) Comparison of the continuous serial interval distribution (green line) with its discretised pmf (bars) used in the renewal model. (E) Posterior predictive distribution for daily cases, with median (purple line) and 50% (dark ribbon) and 95% (light ribbon) credible intervals compared to observed data (black points). (F) Posterior predictive distribution for time-varying $R_t$ on a log scale, with median (green line) and 50% (dark ribbon) and 95% (light ribbon) credible intervals."
+#| fig-cap: "Model components and posterior analysis for Mishra et al. (A) Prior samples from the AR(2) latent process for log $R_t$ over 50 days. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory decreasing from 3 to 0.5. (C) Prior samples from the negative binomial observation model around a latent infection curve. (D) Comparison of the continuous serial interval distribution with its discretised probability mass function. (E) Posterior predictive distribution for daily cases with 50% and 95% credible intervals. (F) Posterior predictive distribution for time-varying $R_t$ on a log scale."
 fig_mishra = let
     qs = [0.025, 0.25, 0.5, 0.75, 0.975]
     n_samples = 100
@@ -576,7 +576,7 @@ The vector $\omega = [\omega_0,\dots,\omega_6]$ encodes day-of-week effects on r
 
 #### Latent model
 
-We reuse the ARIMA(2,1,1) model `arima211` defined in the Setup section but modify it to better reflect outbreak dynamics.
+We reuse the ARIMA(2,1,1) model `arima211` defined in @sec-setup but modify it to better reflect outbreak dynamics.
 
 ```{julia}
 #| output: false
@@ -712,7 +712,7 @@ incubation_dayofweek_negbin = LatentDelay(dayofweek_negbin, incubation_distribut
 delay_dayofweek_negbin = LatentDelay(incubation_dayofweek_negbin, reporting_distribution)
 ```
 
-This code demonstrates component reuse (base `negbin` from @sec-example1), layered composition (adding day-of-week effects via `ascertainment_dayofweek`), and sequential composition (adding two delay layers via nested `LatentDelay`).
+This code demonstrates component reuse (`negbin` from @sec-example1), layered composition (adding day-of-week effects via `ascertainment_dayofweek`), and sequential composition (adding two delay layers via nested `LatentDelay`).
 Note that since these are deterministic delays, we could more efficiently compute this by first convolving the two delay distributions or by automating this using the struct-in-struct approach with multiple dispatch.
 @fig-epinow2 C demonstrates how these delay and day-of-week effects work together to transform a latent infection signal.
 
@@ -823,7 +823,7 @@ We see the model has converged and the summary statistics are similar to @sec-ex
 #| output: true
 #| echo: false
 #| label: fig-epinow2
-#| fig-cap: "Model components and posterior analysis for @sec-example2. (A) Prior samples from the piecewise constant by week ARIMA(2,1,1) latent process for log $R_t$ over 50 days, showing non-stationary reproductive number trajectories that are constant within each week. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory. (C) Prior samples from the composite observation model including incubation period, reporting delays and day-of-week effects around a latent infection curve. (D) Comparison of the continuous incubation period (green line) and reporting delay (blue line) distributions with the combined discretised delay pmf (bars). (E) Posterior predictive distribution for daily cases, with median (purple line) and 50% (dark ribbon) and 95% (light ribbon) credible intervals compared to observed data (black points). (F) Posterior predictive distribution for time-varying $R_t$ on a log scale, with median (green line) and 50% (dark ribbon) and 95% (light ribbon) credible intervals."
+#| fig-cap: "Model components and posterior analysis for EpiNow2. (A) Prior samples from the piecewise constant by week ARIMA(2,1,1) latent process. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory decreasing from 3 to 0.5. (C) Prior samples from the composite observation model including delays and day-of-week effects around a simulated outbreak curve. (D) Incubation period and reporting delay distributions. (E) Posterior predictive distribution for daily cases. (F) Posterior predictive distribution for time-varying $R_t$."
 fig_epinow2 = let
     qs = [0.025, 0.25, 0.5, 0.75, 0.975]
     n_samples = 100
@@ -922,7 +922,7 @@ fig_epinow2
 
 <!-- Reference: https://www.sciencedirect.com/science/article/pii/S1755436519300325 -->
 
-In _Contemporary statistical inference for infectious disease models using Stan_, *Chatzilena et al.* [@chatzilena2019contemporary] demonstrate Bayesian inference for compartmental disease models using Stan's ODE solvers.
+In _Contemporary statistical inference for infectious disease models using Stan_, *Chatzilena et al.* [@chatzilena2019contemporary] demonstrate Bayesian inference for compartmental disease models using Stan's Ordinary Differential Equation (ODE) solvers.
 Their single strain influenza example compares deterministic and stochastic formulations of the SIR model, showing how to perform parameter inference and model comparison for ODEs embedded within a probabilistic programming framework.
 We recreate this example using EpiAware, introducing the SIR model as an alternative infection generating process to the renewal model used in the previous case studies.
 Unlike Stan, we integrate with existing solver libraries from the SciML ecosystem [@rackauckas2017differentialequations] rather than encoding bespoke solvers, allowing us to leverage state-of-the-art numerical methods and automatic solver selection.
@@ -1209,17 +1209,7 @@ stochastic_R0 = sir_R0(stochastic_sir_results.samples)
 #| output: true
 #| echo: false
 #| label: fig-sir
-#| fig-cap: "Model components and posterior analysis for @sec-example3. (A) Prior S
-#|   (top) and I (bottom) compartment trajectories. (B) Prior samples from the
-#|   stochastic observation model including time-varying ascertainment and Poisson
-#|   sampling around a latent infection curve. (C) Prior (grey) and posterior $R_0$
-#|   distributions comparing deterministic (blue) and stochastic (orange) models.
-#|   (D) Posterior S
-#|   (top) and I (bottom) compartment trajectories for both deterministic (blue) and
-#|   stochastic (orange) models with 50% credible intervals. (E) Posterior predictive
-#|   cases for both models, with median and 50% credible intervals compared to
-#|   observed data (black points). (F) Posterior $R_t$ over time on a log scale for
-#|   both models with reference line at $R_t=1$."
+#| fig-cap: "Model components and posterior analysis for Chatzilena et al. (A) Prior S (top) and I (bottom) compartment trajectories. (B) Prior samples from the stochastic observation model including time-varying ascertainment and Poisson sampling around a simulated outbreak curve. (C) Prior (grey) and posterior $R_0$ distributions comparing deterministic (blue) and stochastic (orange) models; x-axis truncated at 6 to focus on the posterior, cutting the prior tail. (D) Posterior S (top) and I (bottom) compartment trajectories for both deterministic (blue) and stochastic (orange) models. (E) Posterior predictive cases for both models, with median and 50% credible intervals compared to observed data (black points). (F) Posterior $R_t$ over time on a log scale for both models with reference line at $R_t=1$."
 fig_sir = let
     qs = [0.025, 0.25, 0.5, 0.75, 0.975]
     n_samples = 100

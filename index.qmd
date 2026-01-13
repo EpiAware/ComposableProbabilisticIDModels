@@ -557,7 +557,7 @@ print(@code_string generate_latent(arima211, 50))
 println("\n```")
 ```
 
-The `DiffLatentModel`'s `@submodel diff_latent = generate_latent(latent_model.model, n - d)` calls the ARMA model, which in turn calls its composed AR and MA components, then applies differencing through cumulative summation.
+The `DiffLatentModel`'s `@submodel diff_latent = generate_latent(latent_model.model, n - d)` calls the ARMA model, which in turn calls its composed AR and MA components, and then applies differencing through cumulative summation.
 This recursion through `@submodel` enables arbitrary composition while maintaining separation between components.
 
 To demonstrate fitting, we combine our ARIMA(2,1,1) with a log-parameterised Poisson observation model, modelling the growth rate using our ARIMA process.
