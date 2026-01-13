@@ -140,6 +140,7 @@ Our proof of concept shows that composable infectious disease modelling can addr
 ## Proposed requirements for composable infectious disease modelling {#sec-requirements}
 
 Based on the challenges outlined above, our experience developing infectious disease models during recent outbreaks, and established best practices for Bayesian modelling [@gelman2020bayesian], we propose requirements for composable infectious disease modelling organised into six themes (@tbl-requirements).
+These themes are: uncertainty and inference, model structure, population heterogeneity, accessibility and adoption, interoperability, and modelling workflow.
 The requirements in the uncertainty and inference theme and the model structure theme aim to address building and fitting models with appropriate uncertainty propagation.
 The requirements in the population heterogeneity theme aim to address the need to model diseases across different groups whilst reducing the additional bookkeeping this typically requires.
 The requirements in the accessibility and adoption theme aim to lower barriers for diverse users, enable incremental uptake, and support the propagation of domain expertise into composed models.
