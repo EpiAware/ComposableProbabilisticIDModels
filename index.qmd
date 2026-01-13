@@ -245,7 +245,7 @@ Panels E-F show posterior predictive distributions for daily cases and time-vary
 
 Our replication reuses the ARIMA(2,1,1) and negative binomial components from @sec-example1, extending them with piecewise constant weekly $R_t$ values, incubation period and reporting delay convolutions [@charniga2024best], and day-of-week reporting effects (@fig-case-studies).
 Unlike @sec-example1 which uses the serial interval, this case study uses the generation time distribution; whilst serial intervals are often used as a proxy, this can be problematic [@park2023inferring] and is primarily done when generation time estimates are unavailable [@zhao2020preliminary].
-We use `broadcast_weekly` to convert the ARIMA(2,1,1) process to piecewise constant weekly $R_t$ values, `LatentDelay` to convolve latent infections with incubation period and reporting delay distributions, and `ascertainment_dayofweek` to multiply expected observations by day-of-week effects via a softmax transformation.
+From our DSL, we use `broadcast_weekly` to convert the ARIMA(2,1,1) process to piecewise constant weekly $R_t$ values, `LatentDelay` to convolve latent infections with incubation period and reporting delay distributions, and `ascertainment_dayofweek` to multiply expected observations by day-of-week effects via a softmax transformation.
 
 @fig-epinow2 shows model components and posterior analysis.
 Panels A-C show prior predictive checks for the piecewise constant weekly ARIMA process, the renewal model, and the composite observation model with delays and day-of-week effects.
