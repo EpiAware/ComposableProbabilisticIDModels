@@ -195,10 +195,10 @@ As expected the observed discrete generation interval differs from the underlyin
 #| output: false
 function discretised_gen_plot!(ax, model_data, truth_SI)
     barplot!(ax, model_data.gen_int;
-        label="Discretized next gen pmf"
+        label="Discretised distribution"
     )
     lines!(ax, truth_SI;
-        label="Continuous serial interval",
+        label="Continuous distribution",
         color=:green
     )
     axislegend(ax)
