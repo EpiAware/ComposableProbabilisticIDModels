@@ -51,13 +51,15 @@ tasks:
 
   render-index:
     desc: "Render main document"
-    deps: [instantiate, install-extensions, render-case-studies]
+    deps: [instantiate, install-extensions, render-mermaid, render-case-studies]
     cmds:
       - quarto render index.qmd
     sources:
       - index.qmd
       - figures/fig-mishra.pdf
       - figures/fig-epinow2.pdf
+      - figures/fig-composable.png
+      - figures/fig-case-studies.png
     generates:
       - index.html
       - index.pdf
