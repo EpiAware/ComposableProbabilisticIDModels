@@ -75,19 +75,18 @@ Random.seed!(1234)
 
 ## Author Summary {.unnumbered}
 
-Mathematical models help combine data to inform infectious disease policy for both ongoing monitoring and outbreak response.
+Mathematical models help interpret data to inform infectious disease policy for both ongoing monitoring and outbreak response.
 For evidence to be useful it must be timely, rigorous, and collaborative, yet current modelling approaches struggle to be all three.
 During COVID-19, models integrating multiple data sources informed policy decisions, yet were not adapted for the 2022 mpox outbreak where different expertise was needed.
 Other data sources have been shown to provide useful information but remain difficult to integrate due to existing modelling frameworks being custom-built and the complexity of these data sources.
 Combining results from multiple models can improve reliability, but without shared components it is unclear whether differences reflect scientific choices or technical details.
 
-Composable models, where components can be reused across contexts and combined whilst maintaining reliability, could address these issues.
-When components have common formats, specialists can contribute their knowledge without understanding entire models.
-This allows different data sources to be combined reliably, and for specialist knowledge to be included, whilst remaining flexible.
+Composable models offer a solution.
+By allowing parts of models to be shared and reused like building blocks, specialists can contribute their expertise without understanding the whole system.
+This makes it easier to combine different data sources reliably whilst remaining flexible enough to adapt to new situations.
 
-We propose requirements for composable infectious disease modelling based on these challenges.
-We demonstrate feasibility through a working example, recreating three published analyses using shared components.
-Such systems could provide the timely, rigorous, and collaborative evidence needed to effectively inform policy during both ongoing monitoring and outbreak response.
+We set out what such models need and show they can work by recreating three published analyses using shared components.
+This approach could help researchers collaborate more effectively and respond more quickly to future disease outbreaks.
 
 # Introduction {#sec-introduction}
 
