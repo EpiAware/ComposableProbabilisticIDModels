@@ -75,15 +75,15 @@ Random.seed!(1234)
 
 ## Author Summary {.unnumbered}
 
-Mathematical models help synthesise data to inform infectious disease policy for both ongoing monitoring and outbreak response.
+Mathematical models help combine data to inform infectious disease policy for both ongoing monitoring and outbreak response.
 For evidence to be useful it must be timely, rigorous, and collaborative, yet current modelling approaches struggle to be all three.
 During COVID-19, models integrating multiple data sources informed policy decisions, yet were not adapted for the 2022 mpox outbreak where different expertise was needed.
-Other data sources have been shown to provide useful information but remain difficult to integrate due to the bespoke nature of existing modelling frameworks and the complexity of these data sources.
+Other data sources have been shown to provide useful information but remain difficult to integrate due to existing modelling frameworks being custom-built and the complexity of these data sources.
 Combining results from multiple models can improve reliability, but without shared components it is unclear whether differences reflect scientific choices or technical details.
 
 Composable models, where components can be reused across contexts and combined whilst maintaining reliability, could address these issues.
 When components have common formats, specialists can contribute their knowledge without understanding entire models.
-This allows different data sources to be analysed together reliably, and for specialist knowledge to be included, whilst remaining flexible.
+This allows different data sources to be combined reliably, and for specialist knowledge to be included, whilst remaining flexible.
 
 We propose requirements for composable infectious disease modelling based on these challenges.
 We demonstrate feasibility through a working example, recreating three published analyses using shared components.
