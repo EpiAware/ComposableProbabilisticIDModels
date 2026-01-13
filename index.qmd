@@ -218,7 +218,7 @@ Other similar interfaces could be developed for other programming languages.
 ## Case studies {#sec-case-studies}
 
 We demonstrate our prototype compositional modelling DSL by recreating three published epidemiological analyses (@fig-case-studies): "On the derivation of the renewal equation from an age-dependent branching process" (referred to as Mishra et al.) [@mishra2020covid], "EpiNow2: Estimate Real-Time Case Counts and Time-Varying Epidemiological Parameters" (referred to as `EpiNow2`)[@abbott-epinow2-wellcomeopenres], and "Contemporary statistical inference for infectious disease models using Stan" (referred to as Chatzilena et al.) [@chatzilena2019contemporary].
-@fig-case-studies highlights component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the `EpiNow2` replication reuses the complete ARIMA model, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
+@fig-case-studies shows the structure of each model and component reuse across the case studies: Mishra et al. reuses the AR(2) component from the ARIMA example, the `EpiNow2` replication reuses the complete ARIMA model, and Chatzilena et al. demonstrates an alternative Susceptible-Infected-Recovered (SIR) infection process.
 
 We provide an overview of each case study in the following subsections, with full implementation details in the Supplementary Information.
 The first two case studies have also been replicated using the `EpiAwareR` R interface [@EpiAwareR].
@@ -229,13 +229,13 @@ All code and data for reproducing the analyses are available [@abbott2025composa
 Mishra et al. [@mishra2020covid] estimate time-varying effective reproduction numbers ($R_t$, the average number of secondary infections caused by an infected individual at time $t$) from case data by combining the renewal equation with a negative binomial observation model.
 
 Our replication composes an AR(2) latent process for log $R_t$ (@fig-case-studies), a renewal infection process [@cori2013new] using a discretised serial interval distribution [@wallinga2007generation], and a negative binomial observation model for case counts.
-We use `AR` to generate the latent log $R_t$ trajectory, `Renewal` to compute expected infections via the renewal equation $I_t = R_t \sum_{s} g_s I_{t-s}$, and `NegativeBinomialError` to link expected infections to observed cases with overdispersion.
-We assemble these components and use Pathfinder [@zhang2022pathfinder] to initialise NUTS sampling.
+From our DSL, we use `AR` to generate the latent log $R_t$ trajectory, `Renewal` to compute expected infections via the renewal equation $I_t = R_t \sum_{s} g_s I_{t-s}$, and `NegativeBinomialError` to link expected infections to observed cases with overdispersion.
+We assemble these components and use Pathfinder [@zhang2022pathfinder] to initialise NUTS sampling [@hoffman2014nuts].
 
-@fig-mishra shows model components and posterior analysis.
+@fig-mishra shows model checks for each component and posterior analysis.
 Panels A-C demonstrate prior predictive checks for each component in isolation: the AR(2) latent process for log $R_t$, the renewal model for latent infections, and the negative binomial observation model.
 Panel D compares the continuous serial interval distribution with its discretised form.
-Panels E-F show posterior predictive distributions for daily cases and time-varying $R_t$, recovering the main finding that $R_t$ in South Korea peaked at approximately 10 before rapidly dropping below 1 in early March 2020.
+Panels E-F show posterior predictive distributions for daily cases and time-varying $R_t$, recovering the main finding from Mishra et al. that $R_t$ in South Korea peaked at approximately 10 before rapidly dropping below 1 in early March 2020.
 
 ![Model components and posterior analysis for Case Study 1. (A) Prior samples from the AR(2) latent process for log $R_t$ over 50 days. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory. (C) Prior samples from the negative binomial observation model around a latent infection curve. (D) Comparison of the continuous serial interval distribution with its discretised pmf. (E) Posterior predictive distribution for daily cases with 50% and 95% credible intervals. (F) Posterior predictive distribution for time-varying $R_t$ on a log scale.](figures/fig-mishra){#fig-mishra width=100%}
 
