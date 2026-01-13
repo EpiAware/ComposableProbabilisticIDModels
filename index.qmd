@@ -247,12 +247,12 @@ Our replication reuses the ARIMA(2,1,1) and negative binomial components from @s
 Unlike @sec-example1 which uses the serial interval, this case study uses the generation time distribution; whilst serial intervals are often used as a proxy, this can be problematic [@park2023inferring] and is primarily done when generation time estimates are unavailable [@zhao2020preliminary].
 From our DSL, we use `broadcast_weekly` to convert the ARIMA(2,1,1) process to piecewise constant weekly $R_t$ values, `LatentDelay` to convolve latent infections with incubation period and reporting delay distributions, and `ascertainment_dayofweek` to multiply expected observations by day-of-week effects via a softmax transformation.
 
-@fig-epinow2 shows model components and posterior analysis.
+@fig-epinow2  shows model checks for each component and posterior analysis.
 Panels A-C show prior predictive checks for the piecewise constant weekly ARIMA process, the renewal model, and the composite observation model with delays and day-of-week effects.
 Panel D displays the incubation period and reporting delay distributions.
 Panels E-F show posterior predictive distributions, demonstrating that the model explicitly accounts for reporting delays whilst recovering $R_t$ dynamics.
 
-![Model components and posterior analysis for Case Study 2. (A) Prior samples from the piecewise constant by week ARIMA(2,1,1) latent process. (B) Prior samples from the renewal model. (C) Prior samples from the composite observation model including delays and day-of-week effects. (D) Incubation period and reporting delay distributions. (E) Posterior predictive distribution for daily cases. (F) Posterior predictive distribution for time-varying $R_t$.](figures/fig-epinow2){#fig-epinow2 width=100%}
+![Model components and posterior analysis for Case Study 2. (A) Prior samples from the piecewise constant by week ARIMA(2,1,1) latent process. (B) Prior samples from the renewal model conditional on a fixed $R_t$ trajectory decreasing from 3 to 0.5. (C) Prior samples from the composite observation model including delays and day-of-week effects around a simulated outbreak curve. (D) Incubation period and reporting delay distributions. (E) Posterior predictive distribution for daily cases. (F) Posterior predictive distribution for time-varying $R_t$.](figures/fig-epinow2){#fig-epinow2 width=100%}
 
 ### Contemporary statistical inference for infectious disease models using Stan {#sec-example3}
 
