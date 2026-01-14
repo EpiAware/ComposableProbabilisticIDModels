@@ -190,7 +190,7 @@ Additional benefits of Julia include eliminating the two-language problem, lever
 Our approach uses a two-layer architecture with a high-level domain-specific language (DSL) for epidemiological modelling (@sec-dsl) and a low-level implementation using `Turing.jl` (@sec-backend), though importantly we are not locked in to this choice as the DSL is agnostic of the backend used.
 This separation enables incremental adoption without rebuilding existing models to use our DSL, with all components remaining functional as standalone tools outside the compositional framework (accessibility and adoption theme, @tbl-requirements).
 The DSL layer also provides a clear, concise model specification using epidemiological concepts, enabling domain experts to contribute components encapsulating their specialised knowledge without needing to understand the low-level details of all framework elements.
-The backend layer aims to handle the automated bookkeeping of stratification, interface validation, and uncertainty propagation whilst supporting multiple inference approaches and automatic differentiation options by leveraging the `Turing.jl` and wider Julia ecosystems.
+The backend layer handles the automated bookkeeping of stratification, interface validation, and uncertainty propagation whilst supporting multiple inference approaches and automatic differentiation options, using `Turing.jl` and the wider Julia ecosystems (e.g. [@dalle2025differentiationinterface]).
 It also facilitates staged inference approaches such as Markov melding [@goudie2019markov], meaning that components can be fitted separately and combined with proper uncertainty propagation (uncertainty and inference theme, @tbl-requirements).
 For further details about the DSL structure and backend implementation, see @sec-materials-methods.
 
@@ -306,7 +306,7 @@ However, recent refactoring in `Turing.jl` has aimed to address these limitation
 
 Key strengths of our approach being implemented using Julia [@Julia-2017] include its ecosystem where domain experts develop specialised tools that interoperate through shared interfaces, access to full programming language features rather than a restricted modelling syntax, multiple dispatch for composition of tools, and the mature SciML ecosystem [@SciML] for differential equations and scientific computing (see @sec-approach for additional detail).
 However, this distributed development also creates challenges as it can be difficult to locate appropriate tools, and when issues emerge users may not know whether problems originate in `Turing.jl`, our DSL layer, or elsewhere in the ecosystem.
-Computational overhead from abstraction layers in our DSL is also a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@dalle2025differentiationinterface] could further reduce the computational cost.
+Computational overhead from abstraction layers in our DSL is also a concern, though recent performance improvements mean `Turing.jl` is approaching manually optimised models, and new automatic differentiation backends like Enzyme [@moses2020enzyme] and Mooncake [@Tebbutt_Mooncake] could further reduce the computational cost.
 Whilst our approach is implemented in Julia, which is not currently common in epidemiology, the R interface [@EpiAwareR] we developed demonstrates that such frameworks can bridge software ecosystems.
 
 <!-- Comparison to literature - Other PPLs -->
