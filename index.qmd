@@ -299,7 +299,8 @@ Key strengths of building on the `Turing.jl` PPL [@fjelde2025turin] include matu
 However, building on an evolving probabilistic programming language involves trade-offs.
 `Turing.jl` aims to stabilise with its planned 1.0 release, but since developing our DSL, the submodel interface has changed, meaning our current implementation is not compatible with the latest release.
 `Turing.jl` also currently has limited handling of numerical instability, so large counts being simulated can cause errors, and vectors that combine missing values with other values require manual handling.
-Profiling tools, which are useful for optimising complex models, have historically been difficult to use with `Turing.jl` models because probabilistic programming abstractions obscure the relationship between source code and runtime behaviour, though recent `DynamicPPL` refactoring has aimed to improve this.
+Profiling tools, which are useful for optimising complex models, have historically been difficult to use with `Turing.jl` models because it, as do other probabilistic programming DSLs, performs additional transformations on the original model specification.
+However, recent refactoring in `Turing.jl` has aimed to address these limitations.
 
 <!-- Strengths and weaknesses of Julia -->
 
