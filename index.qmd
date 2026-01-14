@@ -351,6 +351,7 @@ Areas for future work on our approach include gathering community feedback on th
 More work is also needed to allow for modifying deeply nested model specifications without the user needing to be aware of the structure of the nested model.
 Exploring the alternative approaches discussed above also warrants further investigation.
 This includes integrating our approach with AlgebraicJulia tools for composing dynamical systems, extending category theory based software to support probabilistic models, using symbolic-numeric frameworks for automated optimisation, and exploring alternative PPL backends or building domain-specific components at a lower level of abstraction to enable compatibility with multiple PPLs.
+Our proposed requirements could also be used to guide the development of composability features in PPLs.
 Methodological advances are also needed for joint estimation of interdependent epidemiological parameters and the integration of different data sources.
 Further developing and integrating modular Bayesian inference methods, including Markov melding [@goudie2019markov] for combining submodels fitted separately and cut likelihoods [@plummer2015cuts] for controlling feedback between modules, could enable methodological sharing that is currently difficult.
 Better understanding where diversity in modelling assumptions is important in multi-model efforts, and separating such differences from implementation details, also requires further study.
