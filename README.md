@@ -68,11 +68,14 @@ A pre-built Docker image with all dependencies (Julia, Quarto, packages) is avai
 docker pull ghcr.io/epiaware/composableprobabilisticidmodels:latest
 docker tag ghcr.io/epiaware/composableprobabilisticidmodels:latest composableidmodels
 
-# Run task commands with your local project mounted
-docker run --rm -v $(pwd):/project composableidmodels default
+# Render documents (outputs appear in current directory)
+docker run -v $(pwd):/project composableidmodels default
 
 # List available tasks
-docker run --rm -v $(pwd):/project composableidmodels --list
+docker run composableidmodels --list
+
+# Run interactively
+docker run -it -v $(pwd):/project --entrypoint /bin/bash composableidmodels
 ```
 
 
