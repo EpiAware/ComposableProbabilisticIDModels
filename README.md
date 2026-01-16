@@ -64,14 +64,15 @@ Available tasks:
 A pre-built Docker image with all dependencies (Julia, Quarto, packages) is available from GitHub Container Registry.
 
 ```bash
-# Pull the image
+# Pull and tag with a shorter name
 docker pull ghcr.io/epiaware/composableprobabilisticidmodels:latest
+docker tag ghcr.io/epiaware/composableprobabilisticidmodels:latest composableidmodels
 
 # Run task commands with your local project mounted
-docker run --rm -v $(pwd):/project ghcr.io/epiaware/composableprobabilisticidmodels:latest default
+docker run --rm -v $(pwd):/project composableidmodels default
 
 # List available tasks
-docker run --rm -v $(pwd):/project ghcr.io/epiaware/composableprobabilisticidmodels:latest --list
+docker run --rm -v $(pwd):/project composableidmodels --list
 ```
 
 
