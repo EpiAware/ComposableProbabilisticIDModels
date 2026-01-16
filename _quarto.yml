@@ -48,7 +48,6 @@ format:
         % Reset line spacing in tables to single
         \AtBeginEnvironment{tabular}{\setstretch{1}}
         \AtBeginEnvironment{longtable}{\setstretch{1}}
-  ipynb: default
   docx: default
 
 bibliography: references.bib

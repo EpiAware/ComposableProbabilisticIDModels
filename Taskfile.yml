@@ -42,7 +42,6 @@ tasks:
       - figures/fig-epinow2.png
       - case-studies.html
       - case-studies.pdf
-      - case-studies.ipynb
     status:
       - test -f case-studies.html
       - test -f case-studies.pdf
@@ -63,7 +62,6 @@ tasks:
     generates:
       - index.html
       - index.pdf
-      - index.ipynb
     status:
       - test -f index.html
       - test -f index.pdf
@@ -81,17 +79,21 @@ tasks:
     cmds:
       - juliaup override set 1.11.6
 
-  instantiate:
-    desc: "Activate and instantiate the Julia project environment"
-    deps: [set-julia-override]
+  update-submodules:
+    desc: "Initialise and update git submodules"
     cmds:
       - git submodule update --init --recursive
+    status:
+      - test -d EpiAware/EpiAware/src
+      - test -d EpiAwareR/R
+
+  instantiate:
+    desc: "Activate and instantiate the Julia project environment"
+    deps: [set-julia-override, update-submodules]
+    cmds:
       - julia +1.11.6 -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate()"
-    sources:
-      - Project.toml
-      - Manifest.toml
-    generates:
-      - LocalPreferences.toml
+    status:
+      - julia +1.11.6 -e "using Pkg; Pkg.activate(\".\"); using EpiAware"
 
   repl:
     desc: "Launch Julia REPL with project environment active"
