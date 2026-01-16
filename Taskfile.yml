@@ -69,16 +69,21 @@ tasks:
       - test -f index.pdf
 
   install-julia:
-    desc: "Install Julia 1.11.6 using juliaup and set as default"
+    desc: "Install Julia 1.11.6 using juliaup"
     cmds:
       - juliaup add 1.11.6
-      - juliaup override set 1.11.6
     status:
       - juliaup status | grep -q "1.11.6"
 
+  set-julia-override:
+    desc: "Set Julia 1.11.6 as project override"
+    deps: [install-julia]
+    cmds:
+      - juliaup override set 1.11.6
+
   instantiate:
     desc: "Activate and instantiate the Julia project environment"
-    deps: [install-julia]
+    deps: [set-julia-override]
     cmds:
       - git submodule update --init --recursive
       - julia +1.11.6 -e "using Pkg; Pkg.activate(\".\"); Pkg.instantiate()"
