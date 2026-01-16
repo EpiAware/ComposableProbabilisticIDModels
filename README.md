@@ -59,6 +59,22 @@ Available tasks:
 - `task setup-epiawarer` - Set up EpiAwareR with Julia backend
 - `task --list` - Show all available tasks
 
+### Using Docker
+
+A pre-built Docker image with all dependencies (Julia, Quarto, packages) is available from GitHub Container Registry.
+
+```bash
+# Pull the image
+docker pull ghcr.io/epiaware/composableprobabilisticidmodels:latest
+
+# Run task commands with your local project mounted
+docker run --rm -v $(pwd):/project ghcr.io/epiaware/composableprobabilisticidmodels:latest default
+
+# List available tasks
+docker run --rm -v $(pwd):/project ghcr.io/epiaware/composableprobabilisticidmodels:latest --list
+```
+
+
 ### Manual Execution
 
 1. Install Julia 1.11.6 (we expect any version of 1.11 to work well):
