@@ -105,7 +105,7 @@ tasks:
     cmds:
       - quarto add kapsner/authors-block --no-prompt
     status:
-      - test -d _extensions/authors-block
+      - test -d _extensions/kapsner/authors-block
 
   preview:
     desc: "Preview the Quarto document with live reload"
