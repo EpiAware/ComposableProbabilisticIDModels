@@ -1,5 +1,3 @@
-# Cover Letter to PLOS Computational Biology
-
 Dear Editor,
 
 Mathematical models form an important part of epidemiological research.
