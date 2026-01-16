@@ -130,10 +130,11 @@ jobs:
 
       - name: Render README as homepage
         run: |
-          cat .github/readme-header.yml README.md > README-temp.md
-          quarto render README-temp.md --to html
-          mv README-temp.html README.html
-          rm README-temp.md
+          mkdir -p .tmp
+          cat .github/readme-header.yml README.md > .tmp/README.md
+          quarto render .tmp/README.md --to html
+          mv .tmp/README.html README.html
+          rm -rf .tmp
 
       - name: Check for outputs
         id: check-outputs
