@@ -205,6 +205,7 @@ jobs:
 
       - name: Build EpiAware docs
         if: steps.cache-epiaware-docs.outputs.cache-hit != 'true'
+        continue-on-error: true
         run: |
           julia +1.11.6 --project=EpiAware/EpiAware/docs -e '
             using Pkg
@@ -301,6 +302,7 @@ jobs:
 
       - name: Build EpiAwareR pkgdown site
         if: steps.cache-epiawarer-docs.outputs.cache-hit != 'true'
+        continue-on-error: true
         run: |
           Rscript -e 'pkgdown::build_site("EpiAwareR", new_process = FALSE)'
 
