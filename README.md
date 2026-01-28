@@ -17,7 +17,7 @@ Recent outbreaks of Ebola, COVID-19 and mpox, alongside routine surveillance of 
 
 📑 **[Supplementary Information: Case Studies](https://epiaware.org/ComposableProbabilisticIDModels/case-studies.html)** (HTML)
 
-📦 **[EpiAware.jl Documentation](https://cdcgov.github.io/Rt-without-renewal/dev/)** | 💻 [Code](https://github.com/seabbs/Rt-without-renewal/tree/76fcd1297b4f978662726f9f33fb327ffe3be374)
+📦 **[EpiAware.jl Documentation](https://epiaware.org/ComposableProbabilisticIDModels/epiaware/)** | 💻 [Code](https://github.com/seabbs/Rt-without-renewal/tree/76fcd1297b4f978662726f9f33fb327ffe3be374)
 
 📦 **[EpiAwareR Documentation](https://epiaware.org/ComposableProbabilisticIDModels/epiawarer/)** | 💻 [Code](https://github.com/sbfnk/EpiAwareR/tree/2302c7fffc72a9a8eabb36516fbf5abfb89cffd7)
 
