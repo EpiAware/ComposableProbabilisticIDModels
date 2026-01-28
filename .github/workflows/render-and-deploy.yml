@@ -75,7 +75,22 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: "1.8.24"
-          tinytex: true
+
+      - name: Cache TinyTeX
+        uses: actions/cache@v4
+        with:
+          path: ~/bin
+          key: ${{ runner.os }}-tinytex-2024
+          restore-keys: |
+            ${{ runner.os }}-tinytex-
+
+      - name: Install TinyTeX
+        run: |
+          if [ ! -f ~/bin/tlmgr ]; then
+            wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Quarto extensions
         run: quarto install chromium
