@@ -184,7 +184,7 @@ jobs:
         if: steps.cache-epiaware-docs.outputs.cache-hit != 'true'
         uses: julia-actions/cache@v2
         with:
-          cache-name: julia-epiaware-docs-${{ hashFiles('EpiAware/EpiAware/docs/Project.toml') }}
+          cache-name: julia-epiaware-docs-${{ hashFiles('EpiAware/EpiAware/Project.toml', 'EpiAware/EpiAware/docs/Project.toml') }}
           cache-registries: true
           cache-compiled: true
 
