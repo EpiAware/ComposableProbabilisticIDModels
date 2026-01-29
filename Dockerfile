@@ -3,13 +3,17 @@ FROM ubuntu:24.04
 # Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install basic dependencies
+# Install basic dependencies and build tools for R package compilation
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     ca-certificates \
     wget \
     gpg \
+    build-essential \
+    gfortran \
+    liblapack-dev \
+    libblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto (detect architecture)
@@ -51,16 +55,19 @@ RUN ARCH=$(dpkg --print-architecture) && \
         python3-apt && \
     rm -rf /var/lib/apt/lists/*
 
-# Set up bspm for seamless binary package installation
-RUN Rscript -e 'install.packages("bspm")' && \
-    RHOME=$(R RHOME) && \
-    echo "suppressMessages(bspm::enable())" >> ${RHOME}/etc/Rprofile.site && \
-    echo "options(bspm.version.check=FALSE)" >> ${RHOME}/etc/Rprofile.site
-
-# Install renv and remotes (required for task renv-restore and setup-epiawarer)
+# Install renv, remotes, and bspm via apt for R environment management
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends r-cran-renv r-cran-remotes && \
+    apt-get install -y --no-install-recommends \
+        r-cran-bspm \
+        r-cran-renv \
+        r-cran-remotes && \
     rm -rf /var/lib/apt/lists/*
+
+# Set up bspm for seamless binary package installation (conditional to work with renv)
+RUN RHOME=$(R RHOME) && \
+    echo "if (requireNamespace('bspm', quietly = TRUE)) suppressMessages(bspm::enable())" \
+        >> ${RHOME}/etc/Rprofile.site && \
+    echo "options(bspm.version.check = FALSE)" >> ${RHOME}/etc/Rprofile.site
 
 # Install Task (taskfile.dev)
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
@@ -72,8 +79,15 @@ COPY . .
 # Use task to install Julia, instantiate packages, and install Quarto extensions
 RUN task instantiate && task install-extensions
 
-# Restore R environment and set up EpiAwareR
-RUN task renv-restore && task setup-epiawarer
+# Restore R environment
+RUN task renv-restore
+
+# Set up EpiAwareR (bypass renv autoloader to access system remotes)
+RUN RENV_CONFIG_AUTOLOADER_ENABLED=FALSE Rscript -e ' \
+    remotes::install_local("EpiAwareR", dependencies = FALSE, upgrade = "never"); \
+    library(EpiAwareR); \
+    epiaware_setup_julia() \
+    '
 
 # Declare volume for project files and outputs
 VOLUME /project
