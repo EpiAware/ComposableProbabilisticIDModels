@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     git \
     ca-certificates \
     wget \
+    gpg \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto (detect architecture)
@@ -22,6 +23,45 @@ RUN ARCH=$(dpkg --print-architecture) && \
 RUN curl -fsSL https://install.julialang.org | sh -s -- -y
 ENV PATH="/root/.juliaup/bin:${PATH}"
 
+# Install R via r2u (prebuilt binaries for Ubuntu 24.04)
+# r2u supports both amd64 and arm64 for Ubuntu 24.04 "noble"
+# See: https://eddelbuettel.github.io/r2u/
+RUN ARCH=$(dpkg --print-architecture) && \
+    # Add r2u repository key
+    wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc \
+        | tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc > /dev/null && \
+    # Add CRAN repository key for R itself
+    wget -q -O- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc \
+        | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc > /dev/null && \
+    # Add r2u repository (architecture-aware)
+    echo "deb [arch=${ARCH}] https://r2u.stat.illinois.edu/ubuntu noble main" \
+        > /etc/apt/sources.list.d/cranapt.list && \
+    # Add CRAN repository for R base
+    echo "deb [arch=${ARCH}] https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" \
+        > /etc/apt/sources.list.d/cran_r.list && \
+    # Configure apt to prioritise r2u packages
+    printf "Package: *\nPin: release o=CRAN-Apt Project\nPin: release l=CRAN-Apt Packages\nPin-Priority: 700\n" \
+        > /etc/apt/preferences.d/99cranapt && \
+    apt-get update -qq && \
+    # Install R and dependencies for bspm
+    apt-get install -y --no-install-recommends \
+        r-base-core \
+        python3-dbus \
+        python3-gi \
+        python3-apt && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set up bspm for seamless binary package installation
+RUN Rscript -e 'install.packages("bspm")' && \
+    RHOME=$(R RHOME) && \
+    echo "suppressMessages(bspm::enable())" >> ${RHOME}/etc/Rprofile.site && \
+    echo "options(bspm.version.check=FALSE)" >> ${RHOME}/etc/Rprofile.site
+
+# Install renv and remotes (required for task renv-restore and setup-epiawarer)
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends r-cran-renv r-cran-remotes && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install Task (taskfile.dev)
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
@@ -31,6 +71,9 @@ COPY . .
 
 # Use task to install Julia, instantiate packages, and install Quarto extensions
 RUN task instantiate && task install-extensions
+
+# Restore R environment and set up EpiAwareR
+RUN task renv-restore && task setup-epiawarer
 
 # Declare volume for project files and outputs
 VOLUME /project

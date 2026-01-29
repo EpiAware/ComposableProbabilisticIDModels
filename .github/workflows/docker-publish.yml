@@ -9,6 +9,8 @@ on:
       - 'Manifest.toml'
       - 'Taskfile.yml'
       - 'EpiAware/**'
+      - 'EpiAwareR/**'
+      - 'renv.lock'
   workflow_dispatch:
 
 env:
