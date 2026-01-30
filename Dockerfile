@@ -65,9 +65,9 @@ RUN task instantiate && task install-extensions
 # Restore R environment
 RUN task renv-restore
 
-# Set up EpiAwareR
+# Set up EpiAwareR within renv environment
 RUN Rscript -e ' \
-    remotes::install_local("EpiAwareR", dependencies = FALSE, upgrade = "never"); \
+    renv::install("./EpiAwareR", rebuild = FALSE); \
     library(EpiAwareR); \
     epiaware_setup_julia() \
     '
