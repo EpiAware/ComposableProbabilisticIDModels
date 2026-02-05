@@ -156,4 +156,4 @@ To run the vignettes interactively:
 We acknowledge financial support from CDC Grant NU38FT00008 (K.J., S.A, S.F.).
 This project was made possible by cooperative agreement CDC-RFA-FT-23-0069 from the CDC's Center for Forecasting and Outbreak Analytics.
 Its contents are solely the responsibility of the authors and do not necessarily represent the official views of the Centers for Disease Control and Prevention.
-We also acknowledge financial support from Wellcome 210758/Z/18/Z (S.F.).
+We also acknowledge financial support from Wellcome 210758/Z/18/Z (S.F.). HG was supported in part by the Alan Turing Institute under Fundamental Research.
