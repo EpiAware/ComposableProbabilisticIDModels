@@ -12,21 +12,45 @@ author:
 date: today
 ---
 
+## Talk plan
+
+- Background
+- Proposed requirements
+- Proof of concept
+- Case studies
+- Wrap up
+
 ## TL;DR
 
-## Talk plan
+::: {.callout-note}
+## Links
+
+- [Paper (PDF)](https://epiaware.org/ComposableProbabilisticIDModels/paper.pdf)
+- [Paper (HTML)](https://epiaware.org/ComposableProbabilisticIDModels/paper.html)
+- [Project site](https://epiaware.org/ComposableProbabilisticIDModels/)
+:::
+
+# Background
 
 ## The gap
 
 ## ONS COVID-19 Infection Survey
 
+## Joint models
+
 ## The Rt estimation ecosystem
+
+## Rt estimation research
 
 ## The Bayesian workflow
 
 ## How composability might help
 
+# Proposed requirements
+
 ## Requirements for a composable framework
+
+# Proof of concept {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
 
 ## EpiAware.jl
 
@@ -36,11 +60,15 @@ date: today
 
 ## Autoregressive example
 
+# Case studies
+
 ## Renewal model (Mishra et al.)
 
 ## Real-time nowcasting (EpiNow2)
 
 ## ODE model (influenza)
+
+# Wrap up
 
 ## Summary
 
@@ -49,3 +77,13 @@ date: today
 ## Future work
 
 ## Conclusions
+
+## TL;DR
+
+::: {.callout-note}
+## Links
+
+- [Paper (PDF)](https://epiaware.org/ComposableProbabilisticIDModels/paper.pdf)
+- [Paper (HTML)](https://epiaware.org/ComposableProbabilisticIDModels/paper.html)
+- [Project site](https://epiaware.org/ComposableProbabilisticIDModels/)
+:::
