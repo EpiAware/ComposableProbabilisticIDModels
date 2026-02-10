@@ -218,6 +218,22 @@ date: today
 - Domain-specific language for epidemiology
 - Modelling backend
 
+## Why this approach
+
+- Requirements need probabilistic reasoning,
+  so a probabilistic programming language (PPL)
+- PPL must support automatic differentiation,
+  nesting models within models, and access to
+  wide ecosystems
+- Two-layer architecture: high-level DSL for
+  specification, low-level PPL for inference
+- DSL is agnostic of backend; separation enables
+  incremental adoption without rebuilding
+  existing models
+- Domain experts contribute components using
+  epidemiological concepts without needing to
+  understand low-level details
+
 ## Domain-specific language
 
 - Abstract types define interfaces;
@@ -235,8 +251,21 @@ date: today
   complete model; structures are
   data-agnostic and reusable across
   datasets
-- Meets model structure, accessibility, and
-  interoperability requirements
+
+## Why Turing.jl
+
+- Only Julia PPLs provide the metaprogramming
+  needed for domain-specific abstractions,
+  arbitrary stratification, and programming
+  over model structure
+- Turing.jl has mature submodel support for
+  nesting models within models and extensive
+  inference algorithm choice
+- Light abstraction layer on top of the wider
+  Julia ecosystem rather than a walled garden
+- Julia eliminates the two-language problem;
+  multiple dispatch enables clean composition;
+  SciML ecosystem for ODEs and neural networks
 
 ## Turing.jl as a modelling backend
 
@@ -249,11 +278,15 @@ date: today
 - @submodel macro enables nesting,
   so composed DSL components recurse
   through arbitrary depth
-- DSL is agnostic of backend; many
-  computational components contain no
-  probabilistic programming constructs
-- Meets uncertainty & inference, workflow,
-  and interoperability requirements
+- Many computational components are
+  backend-agnostic and portable to other
+  frameworks
+- Cross-ecosystem access via EpiAwareR,
+  an R interface using JuliaCall
+
+## Composable applications
+
+![](../../figures/fig-composable.png)
 
 # Case studies
 
