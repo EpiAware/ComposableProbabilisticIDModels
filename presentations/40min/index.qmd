@@ -23,20 +23,19 @@ date: today
 ## TL;DR
 
 - Modelling evidence must be timely, rigorous, and
-  collaborative to inform policy but current approaches
-  force a trade-off between these
-- The ONS CIS showed cascading information loss across
-  chained models; seven Rt packages in Stan share no
-  components despite overlapping authors
-- A rigorous modelling workflow needs models that can be
-  developed and validated as parts then composed for joint
-  analysis
-- We propose composable building blocks and demonstrate
-  them in Julia/R, replicating three published COVID-19
-  and influenza analyses
-- Given unpredictable future threats, investment in
-  adaptable modelling infrastructure to provide timely
-  evidence for policy is critical
+  collaborative but current approaches force a trade-off
+- Chaining models offers flexibility but loses information
+  and introduces bias; joint models are rigorous but
+  monolithic and not reusable
+- Composable models can be developed and validated as parts
+  then composed for joint analysis, supporting a rigorous
+  modelling workflow
+- We demonstrate a proof of concept in Julia/R, replicating
+  three published analyses by composing shared and novel
+  components
+- Work remains but investment in adaptable modelling
+  infrastructure that can incorporate diverse data to
+  provide timely evidence for policy is critical
 
 ::: {.callout-note}
 ## Links
@@ -52,7 +51,7 @@ date: today
 
 ## ONS COVID-19 Infection Survey
 
-## Joint models
+## Rigour vs flexibility
 
 ## The Rt estimation ecosystem
 
@@ -97,20 +96,19 @@ date: today
 ## TL;DR
 
 - Modelling evidence must be timely, rigorous, and
-  collaborative to inform policy but current approaches
-  force a trade-off between these
-- The ONS CIS showed cascading information loss across
-  chained models; seven Rt packages in Stan share no
-  components despite overlapping authors
-- A rigorous modelling workflow needs models that can be
-  developed and validated as parts then composed for joint
-  analysis
-- We propose composable building blocks and demonstrate
-  them in Julia/R, replicating three published COVID-19
-  and influenza analyses
-- Given unpredictable future threats, investment in
-  adaptable modelling infrastructure to provide timely
-  evidence for policy is critical
+  collaborative but current approaches force a trade-off
+- Chaining models offers flexibility but loses information
+  and introduces bias; joint models are rigorous but
+  monolithic and not reusable
+- Composable models can be developed and validated as parts
+  then composed for joint analysis, supporting a rigorous
+  modelling workflow
+- We demonstrate a proof of concept in Julia/R, replicating
+  three published analyses by composing shared and novel
+  components
+- Work remains but investment in adaptable modelling
+  infrastructure that can incorporate diverse data to
+  provide timely evidence for policy is critical
 
 ::: {.callout-note}
 ## Links
