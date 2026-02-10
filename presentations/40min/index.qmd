@@ -16,7 +16,7 @@ date: today
 
 - Background
 - Proposed requirements
-- Proof of concept
+- Our approach
 - Case studies
 - Wrap up
 
@@ -26,7 +26,7 @@ date: today
   collaborative but current approaches force a trade-off
 - Chaining models offers flexibility but loses information
   and introduces bias; joint models are rigorous but
-  monolithic and often not reusable
+  monolithic and not reusable
 - Composable models can be developed and validated as parts
   then composed for joint analysis, supporting a rigorous
   modelling workflow
@@ -49,7 +49,7 @@ date: today
 
 ## The gap
 
-## ONS COVID-19 Infection Survey
+## Analysing data separately
 
 ## Analysing all data together
 
@@ -65,17 +65,17 @@ date: today
 
 ## Requirements for a composable framework
 
-# Proof of concept {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
+# Our approach {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
 
-## EpiAware.jl
-
-## Design principles
+## Domain-specific language
 
 ## Composable components
 
-## Autoregressive example
+## Turing.jl interface
 
 # Case studies
+
+## Autoregressive example
 
 ## Renewal model (Mishra et al.)
 
