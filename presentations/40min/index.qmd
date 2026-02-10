@@ -128,6 +128,21 @@ date: today
 - Unit of reuse is the whole model, not the
   underlying epidemiological concepts
 
+## Rt estimation research
+
+- Hundreds of papers propose incremental
+  advances to Rt estimation and related methods
+- Often not tested against current best practice
+  and often built from scratch
+- Each represents a year or more of PhD/postdoc
+  work for very incremental features
+- Features like interaction matrices, day-of-week
+  effects, or latent process changes
+- Much of this effort is duplicated across groups
+  with shared goals
+- Little research directly uses the tools
+  developed by other groups
+
 ## What happens when you try to be modular?
 
 :::: {.columns}
@@ -144,19 +159,6 @@ date: today
 :::
 ::::
 
-## Rt estimation research
-
-- Hundreds of papers propose incremental
-  advances to Rt estimation and related methods
-- Often not tested against current best practice
-  and often built from scratch
-- Each represents a year or more of PhD/postdoc
-  work for very incremental features
-- Features like interaction matrices, day-of-week
-  effects, or latent process changes
-- Much of this effort is duplicated across groups
-  with shared goals
-
 ## The Bayesian workflow
 
 :::: {.columns}
@@ -169,6 +171,8 @@ date: today
   methodology, inference, and evaluation
 - New questions arise on uncertainty propagation,
   interface diagnostics, and data conflicts
+
+github.com/seabbs/a-workflow-for-infectious-disease-modelling
 :::
 ::: {.column width="50%"}
 *Workflow figure*
