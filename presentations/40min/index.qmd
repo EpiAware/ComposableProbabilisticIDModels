@@ -159,6 +159,14 @@ date: today
 :::
 ::::
 
+## This pattern repeats across domains
+
+- Delay estimation
+- Nowcasting
+- Viral load modelling
+- Severity estimation
+- Forecasting and scenario modelling
+
 ## The Bayesian workflow
 
 :::: {.columns}
