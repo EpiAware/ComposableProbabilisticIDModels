@@ -63,7 +63,7 @@ jobs:
             .quarto/project-cache
             _freeze/
             figures/
-          key: ${{ runner.os }}-${{ github.ref_name }}-quarto-${{ hashFiles('index.qmd', 'case-studies.qmd', 'README.md', '_quarto.yml') }}
+          key: ${{ runner.os }}-${{ github.ref_name }}-quarto-${{ hashFiles('index.qmd', 'case-studies.qmd', 'README.md', '_quarto.yml', 'presentations/40min/index.qmd') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.ref_name }}-quarto-
             ${{ runner.os }}-main-quarto-
@@ -88,6 +88,9 @@ jobs:
           quarto render
         env:
           JULIA_NUM_THREADS: auto
+
+      - name: Render presentation
+        run: quarto render presentations/40min/index.qmd
 
       - name: Render README as homepage
         run: |
@@ -122,6 +125,8 @@ jobs:
           cp Manifest.toml _site/ || echo "Manifest.toml not found"
           cp -r data _site/ || echo "Data folder not found"
           cp -r figures _site/ 2>/dev/null || echo "Figures folder not found"
+          mkdir -p _site/presentations/40min
+          cp presentations/40min/index.html _site/presentations/40min/ 2>/dev/null || echo "Presentation not found"
 
       - name: Upload paper artifacts
         if: steps.check-outputs.outputs.has-artifacts == 'true'

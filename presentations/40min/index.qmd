@@ -1,0 +1,5 @@
+---
+title: "Composable probabilistic models can lower barriers to rigorous infectious disease modelling"
+author: "Sam Abbott"
+date: today
+---
