@@ -22,6 +22,20 @@ date: today
 
 ## TL;DR
 
+- Outbreak models need to be fast, accurate, and built
+  collaboratively but current approaches force a trade-off
+- You can chain simple models together (flexible but loses
+  information) or build one big custom model (rigorous but
+  not reusable)
+- We propose a middle ground: modular building blocks that
+  snap together and can be reused across projects
+- We built a proof of concept in Julia/R and showed it can
+  replicate published COVID-19 and influenza analyses by
+  mixing and matching components
+- The approach makes it easier for different experts to
+  contribute pieces and could work well with AI coding
+  assistants
+
 ::: {.callout-note}
 ## Links
 
@@ -79,6 +93,20 @@ date: today
 ## Conclusions
 
 ## TL;DR
+
+- Outbreak models need to be fast, accurate, and built
+  collaboratively but current approaches force a trade-off
+- You can chain simple models together (flexible but loses
+  information) or build one big custom model (rigorous but
+  not reusable)
+- We propose a middle ground: modular building blocks that
+  snap together and can be reused across projects
+- We built a proof of concept in Julia/R and showed it can
+  replicate published COVID-19 and influenza analyses by
+  mixing and matching components
+- The approach makes it easier for different experts to
+  contribute pieces and could work well with AI coding
+  assistants
 
 ::: {.callout-note}
 ## Links
