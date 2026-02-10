@@ -74,8 +74,6 @@ date: today
 
 ## Domain-specific language
 
-## Composable components
-
 ## Turing.jl as a modelling backend
 
 # Case studies
