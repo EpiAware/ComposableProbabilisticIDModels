@@ -26,7 +26,7 @@ date: today
   collaborative but current approaches force a trade-off
 - Chaining models offers flexibility but loses information
   and introduces bias; joint models are rigorous but
-  monolithic and not reusable
+  monolithic and often not reusable
 - Composable models can be developed and validated as parts
   then composed for joint analysis, supporting a rigorous
   modelling workflow
@@ -51,7 +51,7 @@ date: today
 
 ## ONS COVID-19 Infection Survey
 
-## Rigour vs flexibility
+## Analysing all data together
 
 ## The Rt estimation ecosystem
 
