@@ -67,11 +67,16 @@ date: today
 
 # Our approach {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
 
+## Our approach
+
+- Domain-specific language for epidemiology
+- Modelling backend
+
 ## Domain-specific language
 
 ## Composable components
 
-## Turing.jl interface
+## Turing.jl as a modelling backend
 
 # Case studies
 
