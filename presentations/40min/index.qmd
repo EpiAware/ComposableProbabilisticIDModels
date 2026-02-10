@@ -24,6 +24,8 @@ date: today
 - Composable models can be developed and validated as parts
   then composed for joint analysis, supporting a rigorous
   modelling workflow
+- A proof of concept in Julia/R replicates three published
+  analyses by composing shared and novel components
 - Work remains but investment in adaptable modelling
   infrastructure that can incorporate diverse data to
   provide timely evidence for policy is critical
@@ -97,6 +99,8 @@ date: today
 - Composable models can be developed and validated as parts
   then composed for joint analysis, supporting a rigorous
   modelling workflow
+- A proof of concept in Julia/R replicates three published
+  analyses by composing shared and novel components
 - Work remains but investment in adaptable modelling
   infrastructure that can incorporate diverse data to
   provide timely evidence for policy is critical
