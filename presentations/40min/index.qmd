@@ -54,19 +54,53 @@ date: today
 - Multi-model efforts rarely collaborate on
   components despite shared goals
 
-## Analysing data separately
+## Analysing data separately: the data
 
+:::: {.columns}
+::: {.column width="50%"}
 - ONS CIS: 4M+ swabs, 150K households,
   £500M+, April 2020 to March 2023
 - External modellers accessed only summarised
   prevalence, not underlying observations
-- Cascade: prevalence to incidence to Rt to
-  policy analyses
+- Identifiability concerns drove this restriction
+:::
+::: {.column width="50%"}
+*ONS prevalence estimates screenshot*
+:::
+::::
+
+## Analysing data separately: the cascade
+
+:::: {.columns}
+::: {.column width="50%"}
+- Prevalence to incidence to Rt to policy
+  analyses
 - Uncertainty approximated and assumptions
   inherited at each stage without ability to
   evaluate their impact
 - May have affected evidence on variant
   transmissibility and severity
+:::
+::: {.column width="50%"}
+*Incidence and Rt estimates screenshot*
+:::
+::::
+
+## Analysing data separately: the impact
+
+:::: {.columns}
+::: {.column width="50%"}
+- Cascade fed into policy-relevant analyses
+  of variant transmissibility and severity
+- No way to evaluate the impact of inherited
+  assumptions on downstream conclusions
+- Joint modelling of CIS data was not feasible
+  within policy timelines
+:::
+::: {.column width="50%"}
+*Policy paper screenshot*
+:::
+::::
 
 ## Analysing all data together
 
@@ -91,10 +125,24 @@ date: today
 - Wastewater Rt tools built by non-wastewater
   experts, share no components, unclear which
   choices matter
-- epinowcast aims for modularity but cannot be
-  separated into reusable parts or easily adapted
 - Unit of reuse is the whole model, not the
   underlying epidemiological concepts
+
+## What happens when you try to be modular?
+
+:::: {.columns}
+::: {.column width="50%"}
+- epinowcast aims for modular Bayesian framework
+  to support flexible model specification
+- Cannot be separated into reusable parts
+- Difficult for users to contribute to or adapt
+  beyond supported functionality
+- Remains limited in scope despite ambition
+:::
+::: {.column width="50%"}
+*epinowcast screenshot*
+:::
+::::
 
 ## Rt estimation research
 
@@ -111,6 +159,8 @@ date: today
 
 ## The Bayesian workflow
 
+:::: {.columns}
+::: {.column width="50%"}
 - A systematic workflow guides iterative model
   development, validation, and criticism
 - A single specification is needed for both
@@ -119,22 +169,26 @@ date: today
   methodology, inference, and evaluation
 - New questions arise on uncertainty propagation,
   interface diagnostics, and data conflicts
-- Composability makes the workflow faster: domain
-  experts contribute validated parts, models
-  extend without rebuilding
+:::
+::: {.column width="50%"}
+*Workflow figure*
+:::
+::::
 
-## How composability might help
+## What is composable modelling?
 
-- Components reused across contexts and combined
-  in different configurations
+- Components can be reused across contexts and
+  combined in different configurations whilst
+  maintaining statistical rigour
+- Individual components can be inspected and
+  validated in isolation then combined into
+  joint models that properly propagate uncertainty
 - Domain experts contribute specialised parts
   without understanding the whole system
 - Adding data sources requires only a new
   submodel, not rebuilding the entire model
-- Common components enable attribution of
-  differences to assumptions not implementation
-- Well suited for LLM-assisted model
-  construction with automated validation
+- DSLs in Julia have enabled composable models
+  in hydrology and weather forecasting
 
 # Proposed requirements
 
@@ -149,6 +203,11 @@ date: today
 - Themes overlap; e.g. standardised interfaces
   enable component compatibility, multi-strata
   handling, and uncertainty propagation
+
+::: {.callout-warning}
+These requirements were developed by the authors
+and have not yet received broader community input.
+:::
 
 ## Requirements: uncertainty & inference
 
@@ -218,21 +277,22 @@ date: today
 - Domain-specific language for epidemiology
 - Modelling backend
 
-## Why this approach
+## Why a domain-specific language?
 
-- Requirements need probabilistic reasoning,
-  so a probabilistic programming language (PPL)
-- PPL must support automatic differentiation,
-  nesting models within models, and access to
-  wide ecosystems
-- Two-layer architecture: high-level DSL for
-  specification, low-level PPL for inference
-- DSL is agnostic of backend; separation enables
-  incremental adoption without rebuilding
-  existing models
-- Domain experts contribute components using
-  epidemiological concepts without needing to
-  understand low-level details
+- Epidemiological models share common structure:
+  infection processes, latent dynamics,
+  observation models
+- A DSL lets domain experts specify models using
+  epidemiological concepts rather than
+  programming constructs
+- Components encode domain expertise including
+  prior distributions, making it transferable
+  between models and teams
+- Proven in other fields: SpeedyWeather.jl for
+  weather, HydroModels.jl for hydrology
+- Julia's type system and multiple dispatch
+  enable building blocks that compose cleanly
+  across model hierarchies
 
 ## Domain-specific language
 
@@ -252,8 +312,10 @@ date: today
   data-agnostic and reusable across
   datasets
 
-## Why Turing.jl
+## Why Turing.jl?
 
+- Requirements need probabilistic reasoning,
+  so a probabilistic programming language (PPL)
 - Only Julia PPLs provide the metaprogramming
   needed for domain-specific abstractions,
   arbitrary stratification, and programming
@@ -263,9 +325,8 @@ date: today
   inference algorithm choice
 - Light abstraction layer on top of the wider
   Julia ecosystem rather than a walled garden
-- Julia eliminates the two-language problem;
-  multiple dispatch enables clean composition;
-  SciML ecosystem for ODEs and neural networks
+- SciML ecosystem for ODEs, neural networks,
+  and other scientific computing tools
 
 ## Turing.jl as a modelling backend
 
