@@ -8,3 +8,4 @@ format:
     embed-resources: true
     width: 1920
     height: 1080
+    css: style.css

@@ -1,14 +1,8 @@
 ---
 title: "Composable probabilistic models can lower barriers to rigorous infectious disease modelling"
-author:
-  - "**Sam Abbott**"
-  - Samuel P. C. Brand
-  - Sandra Montes-Olivas
-  - Hong Ge
-  - Kaitlyn E. Johnson
-  - Simon D. W. Frost
-  - Anne Cori
-  - Sebastian Funk
+title-slide-attributes:
+  data-notes: ""
+author: "**Sam Abbott**, Samuel P. C. Brand, Sandra Montes-Olivas, Hong Ge, <br> Kaitlyn E. Johnson, Simon D. W. Frost, Anne Cori, Sebastian Funk"
 date: today
 ---
 
