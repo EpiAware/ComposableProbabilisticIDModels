@@ -1,5 +1,57 @@
 ---
 title: "Composable probabilistic models can lower barriers to rigorous infectious disease modelling"
-author: "Sam Abbott"
+author:
+  - "**Sam Abbott**"
+  - Samuel P. C. Brand
+  - Sandra Montes-Olivas
+  - Hong Ge
+  - Kaitlyn E. Johnson
+  - Simon D. W. Frost
+  - Anne Cori
+  - Sebastian Funk
 date: today
 ---
+
+# Introduction {.section-slide}
+
+## The gap
+
+## ONS COVID-19 Infection Survey
+
+## The Rt estimation ecosystem
+
+## The Bayesian workflow
+
+## How composability might help
+
+# Proposed requirements {.section-slide}
+
+## Requirements for a composable framework
+
+# Proof of concept {.section-slide}
+
+## EpiAware.jl
+
+## Design principles
+
+## Composable components
+
+## Autoregressive example
+
+# Case studies {.section-slide}
+
+## Renewal model (Mishra et al.)
+
+## Real-time nowcasting (EpiNow2)
+
+## ODE model (influenza)
+
+# Discussion {.section-slide}
+
+## Summary
+
+## Alternative approaches
+
+## Future work
+
+## Conclusions
