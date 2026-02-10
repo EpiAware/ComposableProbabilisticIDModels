@@ -12,7 +12,9 @@ author:
 date: today
 ---
 
-# Introduction {.section-slide}
+## TL;DR
+
+## Talk plan
 
 ## The gap
 
@@ -24,11 +26,7 @@ date: today
 
 ## How composability might help
 
-# Proposed requirements {.section-slide}
-
 ## Requirements for a composable framework
-
-# Proof of concept {.section-slide}
 
 ## EpiAware.jl
 
@@ -38,15 +36,11 @@ date: today
 
 ## Autoregressive example
 
-# Case studies {.section-slide}
-
 ## Renewal model (Mishra et al.)
 
 ## Real-time nowcasting (EpiNow2)
 
 ## ODE model (influenza)
-
-# Discussion {.section-slide}
 
 ## Summary
 
