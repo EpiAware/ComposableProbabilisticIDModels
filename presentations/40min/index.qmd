@@ -6,14 +6,6 @@ author: "**Sam Abbott**, Samuel P. C. Brand, Sandra Montes-Olivas, Hong Ge, <br>
 date: today
 ---
 
-## Talk plan
-
-- Background
-- Proposed requirements
-- Our approach
-- Case studies
-- Wrap up
-
 ## TL;DR
 
 - Modelling evidence must be timely, rigorous, and
@@ -33,30 +25,136 @@ date: today
 ::: {.callout-note}
 ## Links
 
-- [Paper (PDF)](https://epiaware.org/ComposableProbabilisticIDModels/paper.pdf)
-- [Paper (HTML)](https://epiaware.org/ComposableProbabilisticIDModels/paper.html)
-- [Project site](https://epiaware.org/ComposableProbabilisticIDModels/)
+- epiaware.org
 :::
+
+## Talk plan
+
+- Background
+- Proposed requirements
+- Our approach
+- Case studies
+- Wrap up
 
 # Background
 
 ## The gap
 
+- Modelling evidence must be timely, rigorous,
+  and collaborative; current approaches struggle
+  to be all three
+- COVID-19 models integrated cases, prevalence,
+  severity, and hospital occupancy for policy
+- For mpox, these models lacked the flexibility
+  to adapt; new single-source models were built
+  instead
+- Cross-sectional viral loads shown informative
+  but not incorporated even where routinely
+  available
+- Multi-model efforts rarely collaborate on
+  components despite shared goals
+
 ## Analysing data separately
+
+- ONS CIS: 4M+ swabs, 150K households,
+  £500M+, April 2020 to March 2023
+- External modellers accessed only summarised
+  prevalence, not underlying observations
+- Cascade: prevalence to incidence to Rt to
+  policy analyses
+- Uncertainty approximated and assumptions
+  inherited at each stage without ability to
+  evaluate their impact
+- May have affected evidence on variant
+  transmissibility and severity
 
 ## Analysing all data together
 
+- Joint modelling avoids cascading bias and
+  provides rigorous statistical inference
+- But models are difficult to develop within
+  policy-relevant timelines
+- Require expertise across multiple domains and
+  careful specification of component interactions
+- PPLs reduce effort but do not provide ways to
+  share or reuse model components
+- The practical unit of reuse remains the whole
+  model or its codebase, not the underlying
+  epidemiological concepts
+
 ## The Rt estimation ecosystem
+
+- At least seven Stan packages estimate Rt using
+  renewal approaches; none share components
+- Some packages share authors yet still duplicate
+  implementations
+- Wastewater Rt tools built by non-wastewater
+  experts, share no components, unclear which
+  choices matter
+- epinowcast aims for modularity but cannot be
+  separated into reusable parts or easily adapted
+- Unit of reuse is the whole model, not the
+  underlying epidemiological concepts
 
 ## Rt estimation research
 
+- Hundreds of papers propose incremental
+  advances to Rt estimation and related methods
+- Often not tested against current best practice
+  and often built from scratch
+- Each represents a year or more of PhD/postdoc
+  work for very incremental features
+- Features like interaction matrices, day-of-week
+  effects, or latent process changes
+- Much of this effort is duplicated across groups
+  with shared goals
+
 ## The Bayesian workflow
 
+- A systematic workflow guides iterative model
+  development, validation, and criticism
+- A single specification is needed for both
+  simulation and inference
+- Following the workflow exposes gaps in
+  methodology, inference, and evaluation
+- New questions arise on uncertainty propagation,
+  interface diagnostics, and data conflicts
+- Composability makes the workflow faster: domain
+  experts contribute validated parts, models
+  extend without rebuilding
+
 ## How composability might help
+
+- Components reused across contexts and combined
+  in different configurations
+- Domain experts contribute specialised parts
+  without understanding the whole system
+- Adding data sources requires only a new
+  submodel, not rebuilding the entire model
+- Common components enable attribution of
+  differences to assumptions not implementation
+- Well suited for LLM-assisted model
+  construction with automated validation
 
 # Proposed requirements
 
 ## Requirements for a composable framework
+
+- **Uncertainty & inference**: probabilistic
+  specification, joint modelling, switchable
+  inference backends
+- **Model structure**: clear separation of
+  components, easy nesting, support for
+  multiple modelling paradigms
+- **Population heterogeneity**: arbitrary
+  stratification, automatic multi-group
+  management, partial pooling
+- **Accessibility & adoption**: concise
+  modelling language, components encode
+  domain expertise, incremental adoption
+- **Interoperability & workflow**: standardised
+  interfaces, single specification for
+  simulation and inference, rapid iteration
 
 # Our approach {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
 
@@ -67,27 +165,152 @@ date: today
 
 ## Domain-specific language
 
+- Abstract types define interfaces;
+  struct-in-struct pattern for nesting
+  simpler components into complex models
+- Three type hierarchies: AbstractEpiModel
+  (infection), AbstractLatentModel
+  (time-varying parameters),
+  AbstractObservationModel (links latent
+  to observed)
+- Models compose across hierarchies,
+  e.g. observation models can contain
+  latent processes as fields
+- EpiProblem assembles components into a
+  complete model; structures are
+  data-agnostic and reusable across
+  datasets
+
 ## Turing.jl as a modelling backend
+
+- generate functions dispatch on abstract
+  types; multiple dispatch selects the
+  implementation
+- Produces Turing.jl code via the @model
+  macro; dual purpose for simulation or
+  inference
+- @submodel macro enables nesting,
+  so composed DSL components recurse
+  through arbitrary depth
+- DSL is agnostic of backend; many
+  computational components contain no
+  probabilistic programming constructs
 
 # Case studies
 
 ## Autoregressive example
 
+- AR(2) defined with the `AR` struct using
+  priors from `Distributions.jl`
+- ARMA(2,1) composed by setting the AR
+  error term to an `MA` model
+- ARIMA(2,1,1) composed by wrapping with
+  `DiffLatentModel` for differencing
+- Combined with log-Poisson observation
+  for a complete generative model
+- Posterior distributions recover the
+  simulated parameter values
+
 ## Renewal model (Mishra et al.)
+
+- Estimates time-varying R_t from COVID-19
+  cases in South Korea
+- Composes AR(2) for log R_t, `Renewal`
+  for infections, `NegativeBinomialError`
+  for observations
+- Reuses the AR(2) component from the
+  ARIMA example
+- Prior predictive checks for each
+  component in isolation
+- Recovers R_t peaked at ~10 then rapidly
+  dropped below 1 in early March 2020
 
 ## Real-time nowcasting (EpiNow2)
 
+- Reuses ARIMA(2,1,1) and negative binomial
+  from case study 1
+- Adds weekly R_t, incubation/reporting
+  delay convolutions, day-of-week effects
+- Uses generation time distribution rather
+  than serial interval
+- Widely used real-time tool replicated
+  through composition of DSL components
+- Also replicated via `EpiAwareR` R
+  interface
+
 ## ODE model (influenza)
+
+- SIR compartmental model as alternative
+  infection process via `ODEProcess`
+- Two variants: deterministic Poisson and
+  stochastic AR(1) ascertainment
+- Both models recover R_0 of approx. 2,
+  consistent with Chatzilena et al.
+- Stochastic model better calibrated;
+  deterministic has points outside 95% CIs
+- Same observation and latent components
+  work with fundamentally different
+  infection processes
 
 # Wrap up
 
 ## Summary
 
+- Composable models address the tension between
+  statistical rigour and flexibility for
+  collaborative, timely evidence
+- Modular design enables faster, less error prone
+  model development and component reuse
+- Domain experts contribute specialised components
+  without needing to implement other components
+- Common components enable attribution of results
+  to modelling assumptions, not implementation
+- Component structure is well suited for LLM
+  assisted model construction
+
 ## Alternative approaches
+
+- Category theory / AlgebraicJulia provide formal
+  compositional guarantees but limited support
+  for probabilistic modelling
+- Stan optimised for complete models; Gen.jl
+  lower-level; NumPyro/JAX promising but
+  barriers for epidemiological modellers
+- Declarative graph-based PPLs (JuliaBUGS,
+  RxInfer) trade flexibility for structure
+- Symbolic-numeric frameworks (ModelingToolkit.jl)
+  offer automated optimisation
+- Agent-based approaches (Starsim, EpiABM) show
+  promise but calibration remains challenging
 
 ## Future work
 
+- Gather community feedback on requirements;
+  expand component library across scales
+  and data types
+- Integrate with AlgebraicJulia; extend category
+  theory software to support probabilistic models
+- Develop modular Bayesian inference methods
+  including Markov melding and cut likelihoods
+- Improve Turing.jl composability: submodel
+  handling, conditioning, and post-processing
+- Design surveillance programmes with composable
+  frameworks in mind for reuse from data
+  collection through to policy analyses
+
 ## Conclusions
+
+- Composable modelling maintains statistical
+  rigour whilst enabling rapid collaborative
+  model development
+- Domain experts can contribute specialised
+  components without understanding entire
+  modelling frameworks
+- Likely key for enabling robust LLM assisted
+  model construction with reduced errors
+- Work remains to realise these potential benefits
+- Investment in adaptable modelling infrastructure
+  for timely evidence for policy is critical
 
 ## TL;DR
 
@@ -108,7 +331,5 @@ date: today
 ::: {.callout-note}
 ## Links
 
-- [Paper (PDF)](https://epiaware.org/ComposableProbabilisticIDModels/paper.pdf)
-- [Paper (HTML)](https://epiaware.org/ComposableProbabilisticIDModels/paper.html)
-- [Project site](https://epiaware.org/ComposableProbabilisticIDModels/)
+- epiaware.org
 :::
