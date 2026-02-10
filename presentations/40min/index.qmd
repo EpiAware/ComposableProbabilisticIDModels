@@ -22,19 +22,21 @@ date: today
 
 ## TL;DR
 
-- Outbreak models need to be fast, accurate, and built
-  collaboratively but current approaches force a trade-off
-- You can chain simple models together (flexible but loses
-  information) or build one big custom model (rigorous but
-  not reusable)
-- We propose a middle ground: modular building blocks that
-  snap together and can be reused across projects
-- We built a proof of concept in Julia/R and showed it can
-  replicate published COVID-19 and influenza analyses by
-  mixing and matching components
-- The approach makes it easier for different experts to
-  contribute pieces and could work well with AI coding
-  assistants
+- Modelling evidence must be timely, rigorous, and
+  collaborative to inform policy but current approaches
+  force a trade-off between these
+- The ONS CIS showed cascading information loss across
+  chained models; seven Rt packages in Stan share no
+  components despite overlapping authors
+- A rigorous modelling workflow needs models that can be
+  developed and validated as parts then composed for joint
+  analysis
+- We propose composable building blocks and demonstrate
+  them in Julia/R, replicating three published COVID-19
+  and influenza analyses
+- Given unpredictable future threats, investment in
+  adaptable modelling infrastructure to provide timely
+  evidence for policy is critical
 
 ::: {.callout-note}
 ## Links
@@ -94,19 +96,21 @@ date: today
 
 ## TL;DR
 
-- Outbreak models need to be fast, accurate, and built
-  collaboratively but current approaches force a trade-off
-- You can chain simple models together (flexible but loses
-  information) or build one big custom model (rigorous but
-  not reusable)
-- We propose a middle ground: modular building blocks that
-  snap together and can be reused across projects
-- We built a proof of concept in Julia/R and showed it can
-  replicate published COVID-19 and influenza analyses by
-  mixing and matching components
-- The approach makes it easier for different experts to
-  contribute pieces and could work well with AI coding
-  assistants
+- Modelling evidence must be timely, rigorous, and
+  collaborative to inform policy but current approaches
+  force a trade-off between these
+- The ONS CIS showed cascading information loss across
+  chained models; seven Rt packages in Stan share no
+  components despite overlapping authors
+- A rigorous modelling workflow needs models that can be
+  developed and validated as parts then composed for joint
+  analysis
+- We propose composable building blocks and demonstrate
+  them in Julia/R, replicating three published COVID-19
+  and influenza analyses
+- Given unpredictable future threats, investment in
+  adaptable modelling infrastructure to provide timely
+  evidence for policy is critical
 
 ::: {.callout-note}
 ## Links
