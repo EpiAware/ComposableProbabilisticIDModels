@@ -25,7 +25,7 @@ date: today
 ::: {.callout-note}
 ## Links
 
-- epiaware.org
+- epiaware.org/ComposableProbabilisticIDModels
 :::
 
 ## Talk plan
@@ -506,5 +506,5 @@ date: today
 ::: {.callout-note}
 ## Links
 
-- epiaware.org
+- epiaware.org/ComposableProbabilisticIDModels
 :::
