@@ -40,11 +40,3 @@ quarto preview presentations/40min/index.qmd
 
 Images are stored in `presentations/figures/` and shared across presentations.
 
-### Still needed
-
-- *Birrell et al. screenshot* needs retaking at larger size
-- *Workflow paper screenshot* needs retaking at larger size
-
-### Sourced
-
-All other images have been added to `presentations/figures/`.
