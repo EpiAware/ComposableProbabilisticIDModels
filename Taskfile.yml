@@ -125,6 +125,18 @@ tasks:
     status:
       - Rscript -e 'stopifnot(renv::status()$synchronized)'
 
+  render-presentation:
+    desc: "Render the 40-minute presentation"
+    cmds:
+      - quarto render presentations/40min/index.qmd
+    sources:
+      - presentations/40min/index.qmd
+      - presentations/40min/_quarto.yml
+    generates:
+      - presentations/40min/index.html
+    status:
+      - test -f presentations/40min/index.html
+
   setup-epiawarer:
     desc: "Set up EpiAwareR R package with Julia backend"
     deps: [instantiate, renv-restore]

@@ -21,6 +21,8 @@ Recent outbreaks of Ebola, COVID-19 and mpox, alongside routine surveillance of 
 
 📦 **[EpiAwareR Documentation](https://epiaware.org/ComposableProbabilisticIDModels/epiawarer/)** | 💻 [Code](https://github.com/sbfnk/EpiAwareR/tree/2302c7fffc72a9a8eabb36516fbf5abfb89cffd7)
 
+🎤 **[40-minute presentation](https://epiaware.org/ComposableProbabilisticIDModels/presentations/40min/)** (HTML slides)
+
 ## Citation
 
 *Paper citation information will be added upon publication.*
@@ -56,6 +58,7 @@ Available tasks:
 - `task repl` - Launch Julia REPL with project environment
 - `task install-extensions` - Install Quarto extensions
 - `task renv-restore` - Restore R environment from renv.lock
+- `task render-presentation` - Render the 40-minute presentation
 - `task setup-epiawarer` - Set up EpiAwareR with Julia backend
 - `task --list` - Show all available tasks
 

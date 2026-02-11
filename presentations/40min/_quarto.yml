@@ -1,0 +1,12 @@
+project:
+  type: default
+
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+    embed-resources: true
+    width: 1920
+    height: 1080
+    center: true
+    css: style.css

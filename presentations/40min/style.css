@@ -1,0 +1,17 @@
+/* Presentation custom styles */
+
+/* Add space between slide title and content */
+.reveal .slides section h2 {
+  margin-bottom: 1.6em;
+}
+
+/* Larger disclaimer callout on title slide */
+.reveal .slides section[data-background-color] .callout {
+  font-size: 1.5em;
+  padding: 1em 1.5em;
+}
+
+/* Allow code blocks to use full available height */
+.reveal .slides section pre {
+  max-height: none;
+}
