@@ -54,9 +54,11 @@ epiaware.org/ComposableProbabilisticIDModels
 - Modelling evidence must be timely, rigorous,
   and collaborative
 - Current approaches struggle to be all three
+
+[Whitty (2015)](https://doi.org/10.1186/s12916-015-0544-8)
 :::
 ::: {.column width="50%"}
-*Whitty 2015 paper screenshot*
+![](../figures/whitty.png)
 :::
 ::::
 
@@ -70,9 +72,11 @@ epiaware.org/ComposableProbabilisticIDModels
   policy decisions
 - But required expertise across multiple domains
   and long development timelines
+
+[Birrell et al. (2025)](https://doi.org/10.1093/jrsssa/qnaf030)
 :::
 ::: {.column width="50%"}
-*Birrell et al. COVID-19 model screenshot*
+![](../figures/birrell.png)
 :::
 ::::
 
@@ -85,9 +89,11 @@ epiaware.org/ComposableProbabilisticIDModels
   instead
 - Different contact structure and behaviour
   needed explicit representation
+
+[Endo et al. (2022)](https://doi.org/10.1126/science.add4507)
 :::
 ::: {.column width="50%"}
-*Endo et al. mpox paper screenshot*
+![](../figures/endo.png)
 :::
 ::::
 
@@ -101,9 +107,11 @@ epiaware.org/ComposableProbabilisticIDModels
   where routinely available
 - Existing frameworks too rigid to add new data
   sources without rebuilding
+
+[Hay et al. (2021)](https://doi.org/10.1126/science.abh0635)
 :::
 ::: {.column width="50%"}
-*Hay et al. viral loads paper screenshot*
+![](../figures/hay.png)
 :::
 ::::
 
@@ -118,63 +126,79 @@ epiaware.org/ComposableProbabilisticIDModels
 - Common components would enable attribution of
   differences to assumptions rather than
   implementation
+
+[Cramer et al. (2021)](https://doi.org/10.1101/2021.11.04.21265886)
 :::
 ::: {.column width="50%"}
-*Multi-model hub paper screenshot*
+![](../figures/cramer.png)
 :::
 ::::
 
-## Analysing data separately: the data
+## What are our options?
+
+### Analyse data and processes separately
+
+### Analyse all data and processes together
+
+## Analysing data and processes separately: the data
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - ONS CIS: 4M+ swabs, 150K households,
   £500M+, April 2020 to March 2023
 - External modellers accessed only summarised
   prevalence, not underlying observations
+- Secure research environment available but
+  limited compute, slow to gain access, and
+  difficult to get custom code running
+  (probably on us)
 - Identifiability concerns drove this restriction
+
+[Riley et al. (2020)](https://doi.org/10.1016/S2468-2667(20)30282-6)
 :::
-::: {.column width="50%"}
-*ONS prevalence estimates screenshot*
+::: {.column width="60%"}
+![](../figures/ons-prev.jpg)
 :::
 ::::
 
-## Analysing data separately: the cascade
+## Analysing data and processes separately: the cascade
 
 :::: {.columns}
-::: {.column width="50%"}
-- Prevalence to incidence to Rt to policy
-  analyses
+::: {.column width="40%"}
+- Prevalence to incidence to $R_t$
 - Estimates used as inputs to subsequent
   analyses at each stage
 - Uncertainty from earlier estimates
   approximated at each step
 - Modelling assumptions inherited without
   the ability to evaluate their impact
+
 :::
-::: {.column width="50%"}
-*Incidence and Rt estimates screenshot*
+::: {.column width="60%"}
+![](../figures/rt-incidence-ons.jpg)
 :::
 ::::
 
-## Analysing data separately: the impact
+## Analysing data and processes separately: the impact
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Cascade fed into policy-relevant analyses
   of variant transmissibility and severity
-- No way to evaluate the impact of inherited
+- No easy way to evaluate the impact of inherited
   assumptions on downstream conclusions
 - Joint modelling of CIS data was not feasible
   within policy timelines (or at least was not
-  done)
+  done that we are aware of)
+
+[Davies et al. (2021)](https://doi.org/10.1126/science.abg3055)
 :::
-::: {.column width="50%"}
-*Policy paper screenshot*
+::: {.column width="60%"}
+![](../figures/davies.png)
 :::
 ::::
 
-## Analysing all data together
+## Analysing all data and processes together
 
 - Joint modelling avoids cascading bias and
   provides rigorous statistical inference
@@ -189,22 +213,22 @@ epiaware.org/ComposableProbabilisticIDModels
 ::: {.column width="50%"}
 - Lison et al. replicated
   [Gunther et al.](https://doi.org/10.1002/bimj.202000112)
-  for date imputation, nowcasting, and Rt
+  for date imputation, nowcasting, and $R_t$
   estimation in Bavaria
 - Found biases at each step: lack of epidemic
   phase in date imputation and count model
-  assumptions in nowcasting led to biased Rt
+  assumptions in nowcasting led to biased $R_t$
 - Joint modelling of all steps together
   avoided these cascading biases
 
 [DOI: 10.1371/journal.pcbi.1012021](https://doi.org/10.1371/journal.pcbi.1012021)
 :::
 ::: {.column width="50%"}
-*Lison et al. 2024 paper screenshot*
+![](../figures/lison.png)
 :::
 ::::
 
-## PPLs reduce effort but not reuse
+## PPLs reduce effort
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -216,28 +240,45 @@ epiaware.org/ComposableProbabilisticIDModels
   reuse model components between packages
 - Fragmentation persists despite shared
   goals across modelling teams
+- Often walled gardens with limited
+  interoperability
+
+[mc-stan.org](https://mc-stan.org)
 :::
 ::: {.column width="50%"}
-*Stan splash page screenshot*
+![](../figures/stan.png)
 :::
 ::::
 
-## The Rt estimation ecosystem
+## The $R_t$estimation ecosystem
 
-- At least seven Stan packages estimate Rt using
+:::: {.columns}
+::: {.column width="50%"}
+- At least seven Stan packages estimate $R_t$using
   renewal approaches; none share components
 - Some packages share authors yet still duplicate
   implementations
-- Wastewater Rt tools built by non-wastewater
+- Wastewater $R_t$tools built by non-wastewater
   experts, share no components, unclear which
   choices matter
+- Efforts to share components (e.g.
+  [primarycensored](https://github.com/epinowcast/primarycensored))
+  have largely failed to gain adoption
+  by $R_t$packages
 - Unit of reuse is the whole model, not the
   underlying epidemiological concepts
 
-## Rt estimation research
+[epiforecasts.io/EpiNow2](https://epiforecasts.io/EpiNow2)
+:::
+::: {.column width="50%"}
+![](../figures/epinow2.png)
+:::
+::::
+
+## $R_t$estimation research
 
 - Many papers propose incremental
-  advances to Rt estimation and related methods
+  advances to $R_t$estimation and related methods
 - Often not tested against current best practice
   and built from scratch
 - Each typically represents a year or more of
@@ -253,7 +294,7 @@ epiaware.org/ComposableProbabilisticIDModels
   censoring, truncation, and epidemic phase
   bias are defined in delays research)
 
-## What happens when you try to be modular?
+## What happens when you try to be modular? {subtitle="epinowcast"}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -261,7 +302,7 @@ epiaware.org/ComposableProbabilisticIDModels
   with multi-strata joint modelling of missing
   dates, nowcasting right-truncated delays,
   ascertainment, latent infection modelling,
-  and Rt estimation with a regression interface
+  and $R_t$estimation with a regression interface
   for each component
 - **Limitations:**
   - Cannot easily be separated into reusable
@@ -273,7 +314,7 @@ epiaware.org/ComposableProbabilisticIDModels
   - Remains limited in scope despite ambition
 :::
 ::: {.column width="50%"}
-*epinowcast screenshot*
+![](../figures/epinowcast.png)
 :::
 ::::
 
@@ -309,14 +350,14 @@ And they do it again and again.
 [github.com/seabbs/a-workflow-for-infectious-disease-modelling](https://github.com/seabbs/a-workflow-for-infectious-disease-modelling)
 :::
 ::: {.column width="50%"}
-*Working draft paper screenshot*
+![](../figures/workflow.png)
 :::
 ::::
 
 ## The workflow
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="35%"}
 - Guides modellers from research questions
   through model specification to reporting
 - Modular structure encourages considering
@@ -324,8 +365,8 @@ And they do it again and again.
 - A single specification is useful for both
   simulation and inference
 :::
-::: {.column width="50%"}
-*Workflow schematic figure*
+::: {.column width="65%"}
+![](../figures/workflow-schematic.png)
 :::
 ::::
 
@@ -363,8 +404,8 @@ maintaining statistical rigour.
   without understanding the whole system
 - Adding data sources requires only a new
   submodel, not rebuilding the entire model
-- DSLs in Julia have enabled composable models
-  in other fields
+- Domain-specific languages have enabled
+  composable models in other fields
   - [SpeedyWeather.jl](https://doi.org/10.21105/joss.06323)
     for weather modelling
   - [HydroModels.jl](https://doi.org/10.5281/zenodo.15549719)
@@ -397,7 +438,7 @@ and have not yet received broader community input.
 
 ## Summary of proposed requirements
 
-*Requirements table screenshot*
+![](../figures/requirements.png)
 
 ## Requirements: uncertainty & inference
 
@@ -496,7 +537,7 @@ validated models on decision-relevant timelines.
 - Language optimised for LLM-assisted
   construction with automated validation
 
-# Our approach {subtitle="A front-end DSL for epidemiology with a back-end probabilistic programming language"}
+# Our approach {subtitle="A proof of concept: front-end DSL for epidemiology with a back-end probabilistic programming language"}
 
 ## Our approach
 
@@ -517,13 +558,22 @@ validated models on decision-relevant timelines.
 - Components encode domain expertise including
   prior distributions, making it transferable
   between models and teams
-- Proven in other fields: SpeedyWeather.jl for
-  weather, HydroModels.jl for hydrology
+- Proven in other fields:
+  [SpeedyWeather.jl](https://doi.org/10.21105/joss.06323) for
+  weather,
+  [HydroModels.jl](https://doi.org/10.5281/zenodo.15549719)
+  for hydrology
+
+::: {.callout-warning}
+The DSL should be a thin layer to avoid
+reimplementing the wheel for model expression,
+modelling workflow, and inference.
+:::
 
 ## Domain-specific language
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="60%"}
 ::: {.callout-note}
 ## Implemented in Julia
 
@@ -546,12 +596,10 @@ languages.
   ascertainment
 - Model definitions are data-agnostic and
   reusable across different datasets
-- EpiProblem assembles components into a
-  complete model ready for inference
 - Cross-ecosystem access via EpiAwareR,
   an R interface using JuliaCall
 :::
-::: {.column width="50%"}
+::: {.column width="40%"}
 ```julia
 struct AR{
     D <: Sampleable,
@@ -648,7 +696,7 @@ end
 
 # Case studies
 
-## ARIMA worked example
+## ARIMA(2,1,1) worked example
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -674,10 +722,10 @@ $$\Delta Z_t = \rho_1 \Delta Z_{t-1} + \rho_2 \Delta Z_{t-2} + \epsilon_t + \the
 :::
 ::::
 
-## Autoregressive example: DSL code
+## ARIMA(2,1,1): DSL code
 
 :::: {.columns}
-::: {.column width="60%"}
+::: {.column width="40%"}
 ```julia
 ar2 = AR(;
   damp_priors = [
@@ -700,15 +748,15 @@ arima211 = DiffLatentModel(
 
 ```
 :::
-::: {.column width="40%"}
+::: {.column width="60%"}
 ![](../../figures/fig-case-studies.png)
 :::
 ::::
 
-## Autoregressive example: results
+## ARIMA(2,1,1): results
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Posterior distributions recover the
   simulated parameter values
 - Prior predictive samples show expected
@@ -716,12 +764,12 @@ arima211 = DiffLatentModel(
 - Same components reused in all subsequent
   case studies
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](../../figures/fig-arima.png)
 :::
 ::::
 
-## Mishra et al. renewal model
+## Renewal model (Mishra et al.)
 
 ::: {.callout-note}
 Mishra et al. (2020).
@@ -742,7 +790,7 @@ from an age-dependent branching process.*
 ## Renewal model (Mishra et al.): model
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Reuses `AR` from ARIMA example;
   `@set` updates the damping prior for
   this epidemiological context
@@ -752,14 +800,12 @@ from an age-dependent branching process.*
 - `NegativeBinomialError` links expected
   infections to observed cases with
   overdispersion
-- `EpiProblem` assembles all three
-  components into a complete model
 - Each component generated and checked
   in isolation before composition
 - Same `generate_epiaware` call produces
   a `Turing.jl` model for inference
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](../../figures/fig-case-studies.png)
 :::
 ::::
@@ -767,20 +813,20 @@ from an age-dependent branching process.*
 ## Renewal model (Mishra et al.): results
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Prior predictive checks for each
   component in isolation
-- Recovers R_t peaked at ~10 then rapidly
+- Recovers $R_t$ peaked at ~10 then rapidly
   dropped below 1 in early March 2020
 - Posterior predictive distribution captures
   observed case dynamics
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](../../figures/fig-mishra.png)
 :::
 ::::
 
-## EpiNow2 nowcasting
+## Real-time nowcasting (EpiNow2)
 
 ::: {.callout-note}
 Abbott et al. (2020).
@@ -800,12 +846,12 @@ and Time-Varying Epidemiological Parameters.*
 ## Real-time nowcasting (EpiNow2): model
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Reuses ARIMA(2,1,1) and `negbin`
   from case study 1 directly
 - `broadcast_weekly` wraps ARIMA to
   produce piecewise constant weekly
-  R_t values
+  $R_t$ values
 - `ascertainment_dayofweek` adds
   day-of-week reporting effects via
   softmax transformation
@@ -815,11 +861,8 @@ and Time-Varying Epidemiological Parameters.*
 - Layered composition: `negbin` wrapped
   by day-of-week, then by incubation
   delay, then by reporting delay
-- `EpiProblem` assembles the same way
-  as Mishra et al. with richer
-  observation model
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](../../figures/fig-case-studies.png)
 :::
 ::::
@@ -827,21 +870,21 @@ and Time-Varying Epidemiological Parameters.*
 ## Real-time nowcasting (EpiNow2): results
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Widely used real-time tool replicated
   through composition of DSL components
   (took 3 hours to replicate)
 - Also replicated via `EpiAwareR` R
   interface
 - Posterior accounts for reporting delays
-  whilst recovering R_t dynamics
+  whilst recovering $R_t$ dynamics
 :::
-::: {.column width="50%"}
+::: {.column width="60%"}
 ![](../../figures/fig-epinow2.png)
 :::
 ::::
 
-## Chatzilena et al. ODE model
+## ODE model (Chatzilena et al.)
 
 ::: {.callout-note}
 Chatzilena et al. (2019).
@@ -859,7 +902,7 @@ infectious disease models using Stan.*
 - Introduces the SIR ODE as an alternative
   infection process to the renewal model
 
-## ODE model (influenza): model
+## ODE model (Chatzilena et al.): model
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -877,19 +920,17 @@ infectious disease models using Stan.*
   the deterministic one in one line
 - Reuses `AR` struct from earlier case
   studies for observation dynamics
-- `EpiProblem` composes identically;
-  only the submodel types differ
 :::
 ::: {.column width="50%"}
 ![](../../figures/fig-case-studies.png)
 :::
 ::::
 
-## ODE model (influenza): results
+## ODE model (Chatzilena et al.): results
 
 :::: {.columns}
 ::: {.column width="50%"}
-- Both models recover R_0 of approx. 4,
+- Both models recover $R_0$ of approx. 4,
   consistent with Chatzilena et al.
 - Stochastic model better calibrated;
   deterministic has points outside 95% CIs
