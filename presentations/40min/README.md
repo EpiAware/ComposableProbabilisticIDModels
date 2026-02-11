@@ -35,3 +35,23 @@ After rendering, open `presentations/40min/index.html` in a browser, or use:
 ```bash
 quarto preview presentations/40min/index.qmd
 ```
+
+## Placeholder images needed
+
+The following images need to be sourced and added to the presentation.
+Screenshots or figures should be saved in a suitable location and referenced in `index.qmd`.
+
+- *Whitty 2015 paper screenshot* (The gap slide 1)
+- *Birrell et al. COVID-19 model screenshot* (The gap slide 2)
+- *Endo et al. mpox paper screenshot* (The gap slide 3)
+- *Hay et al. viral loads paper screenshot* (The gap: integrating diverse data)
+- *Multi-model hub paper screenshot* (The gap: multi-model efforts)
+- *ONS prevalence estimates screenshot* (Analysing data separately: the data)
+- *Incidence and Rt estimates screenshot* (Analysing data separately: the cascade)
+- *Policy paper screenshot* (Analysing data separately: the impact)
+- *Lison et al. 2024 paper screenshot* (Joint modelling: the evidence)
+- *Stan splash page screenshot* (PPLs reduce effort but not reuse)
+- *epinowcast screenshot* (What happens when you try to be modular?)
+- *Working draft paper screenshot* (A workflow for infectious disease modelling)
+- *Workflow schematic figure* (Following the workflow exposes gaps)
+- *Requirements table screenshot* (Summary of proposed requirements)
