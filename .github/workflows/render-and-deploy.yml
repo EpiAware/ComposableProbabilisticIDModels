@@ -116,6 +116,7 @@ jobs:
           cp README.html _site/index.html 2>/dev/null || echo "README HTML not found"
           cp index.html _site/paper.html 2>/dev/null || echo "Paper HTML not found"
           cp index.pdf _site/paper.pdf 2>/dev/null || echo "PDF file not found"
+          cp index.pdf _site/index.pdf 2>/dev/null || echo "PDF file not found"
           cp index.docx _site/paper.docx 2>/dev/null || echo "Paper DOCX not found"
           cp case-studies.html _site/ 2>/dev/null || echo "Case studies HTML not found"
           cp case-studies.pdf _site/ 2>/dev/null || echo "Case studies PDF not found"
